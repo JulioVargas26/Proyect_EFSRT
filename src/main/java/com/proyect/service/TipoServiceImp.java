@@ -18,4 +18,9 @@ public class TipoServiceImp implements TipoService {
 		return repository.findAll();
 	}
 
+	@Override
+	public Tipo getReferenceById(Long id) {
+		return repository.getOne(id);
+	}
+
 }

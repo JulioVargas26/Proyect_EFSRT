@@ -7,5 +7,5 @@ import java.util.List;
 public interface TipoService {
 
 	public abstract List<Tipo> listaTodos();
-
+	public abstract Tipo getReferenceById(Long id);
 }

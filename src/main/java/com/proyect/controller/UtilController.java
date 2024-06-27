@@ -41,15 +41,7 @@ public class UtilController {
 
 	@GetMapping("/listaTipo")
 	@ResponseBody
-	public HashMap<String, String> listaSede() {
-		List<Tipo> listSalida = tipoService.listaTodos();
-		HashMap<String, String> map = new HashMap<>();
-		int contador = 1;
-		for (Tipo item : listSalida) {
-			map.put("sede_"+ contador, item.getDescripcion());
-			contador++;
-		}
-		System.out.println("listar tipo "+map);
-		return map;
+	public HashMap<String, String> listaTipo() {
+		return tipoService.listaTodos().stream().collect(HashMap::new, (m, v) -> m.put(v.getId_tipo().toString(), v.getDescripcion()), HashMap::putAll);
 	}
 }

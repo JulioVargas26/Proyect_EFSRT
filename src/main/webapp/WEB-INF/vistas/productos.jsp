@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="esS">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport"
@@ -10,13 +10,6 @@
     <meta http-equiv="Cache-Control" content="no-store"/>
     <meta http-equiv="Pragma" content="no-cache"/>
 
-    <script type="text/javascript" src="js/jquery.min.js"></script>
-    <script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
-    <script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/bootstrapValidator.js"></script>
-    <script type="text/javascript" src="js/global.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/dataTables.bootstrap.min.css"/>
     <link rel="stylesheet" href="css/bootstrapValidator.css">
@@ -28,6 +21,9 @@
     <script src="https://npmcdn.com/flatpickr/dist/l10n/es	.js"></script>
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
     <title>Intranet</title>
     <style>
         .navbar {
@@ -106,7 +102,6 @@
                 </div>
             </div>
 
-
             <div class="form-group">
                 <div class="col-md-3 col-sm-6 col-mb-3">
                     <button type="button" class="btn btn-primary btn-block "
@@ -126,7 +121,7 @@
         <div class="row" style="padding-top: 3rem;">
             <div class="col-md-12">
                 <div class="content table-responsive-md">
-                    <table id="id_table" class="table  table-hover  table-dark ">
+                    <table id="id_table" class="table  table-hover  table-dark dt-responsive nowrap" style="width:100%">
                         <thead>
                         <tr>
                             <th style="width: 5%">ID</th>
@@ -154,21 +149,64 @@
 
 </div>
 
+<script type="text/javascript" src="js/jquery.min.js"></script>
+<script type="text/javascript" src="js/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/dataTables.bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.min.js"></script>
+<script type="text/javascript" src="js/bootstrapValidator.js"></script>
+<script type="text/javascript" src="js/global.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script type="text/javascript">
-    <!-- Agregar aqu� -->
-    $(function () {
-        $("#fechaNacimientoRegistro").flatpickr({
-            // Opciones de configuraci�n de Flatpickr
-            dateFormat: 'Y-m-d', // Formato de fecha
-            locale: 'es'
-            // Otras opciones que desees configurar
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
+<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
+
+<script>
+    $(document).ready(function() {
+        var table = $('#id_table').DataTable({
+            lengthChange: false,
+            buttons: [
+                'copy', 'excel', 'pdf', 'colvis'
+            ]
         });
 
-        listarProductos();
+        table.buttons().container().appendTo( '#id_table_wrapper .col-md-6:eq(0)' );
+    });
+</script>
+<script type="text/javascript">
+    <!-- Agregar aqu� -->
+    (() => {
+        'use strict'
 
-        /*// Realiza la solicitud para obtener la lista de nacionalidades
-        $.getJSON("listaNacionalidades", {})
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        const forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.from(forms).forEach(form => {
+            form.addEventListener('submit', event => {
+                if (!form.checkValidity()) {
+                    event.stopPropagation()
+                }
+                // Prevenir la recarga de la página
+                event.preventDefault()
+
+                form.classList.add('was-validated')
+            }, false)
+        })
+    })()
+
+    $(document).ready(function () {
+        listarProductos();
+        buscarPorFiltrosGestionProductos();
+        // Realiza la solicitud para obtener la lista de nacionalidades
+        $.getJSON("listaTipoDocumento", {})
             .done(function (data) {
                 // Limpiar el select antes de agregar las nuevas opciones
                 $("#id_act_tipo_documento").empty();
@@ -190,63 +228,60 @@
                 var err = textStatus + ", " + error;
                 console.log("Fallo en la solicitud: " + err);
                 // Puedes agregar aquí tu propia lógica para mostrar un mensaje de error al usuario
-            });*/
-
-
-    });
-
-    $.getJSON("listaNacionalidades", {}, function (data) {
-        $.each(data, function (index, item) {
-            $("#id_reg_tipo_documento").append(
-                $('<option>', {
-                    value: index,
-                    text: item
-                }));
-            $("#id_act_tipo_documento").append(
-                $('<option>', {
-                    value: index,
-                    text: item
-                }));
-        });
-    });
-
-    $.getJSON("listaTipo", {}, function (data) {
-        $.each(data, function (index, item) {
-            $("#id_reg_tipo").append(
-                $('<option>', {
-                    value: index,
-                    text: item
-                }));
-            $("#id_act_tipo").append(
-                $('<option>', {
-                    value: index,
-                    text: item
-                }));
-        });
-    });
-
-    $("#id_btn_filtrar").click(function () {
-        buscarPorFiltrosGestionProductos();
-    });
-
-    $("#id_txt_filtro").on('keypress', function (e) {
-        if (e.which == 13) {
-            var fil = $("#id_txt_filtro").val();
-            $.getJSON("buscarProductoPorNombre", {
-                "filtro": fil
-            }, function (lista) {
-                agregarGrilla(lista);
             });
-        }
+
+        //registrar lista tipo documento
+        $.getJSON("listaTipoDocumento", {}, function (data) {
+            $.each(data, function (index, item) {
+                $("#id_reg_tipo_documento").append(
+                    $('<option>', {
+                        value: index,
+                        text: item
+                    }));
+            });
+        });
+
+        $.getJSON("listaTipo", {}, function (data) {
+            $.each(data, function (index, item) {
+                $("#id_reg_tipo").append(
+                    $('<option>', {
+                        value: index,
+                        text: item
+                    }));
+                $("#id_act_tipo").append(
+                    $('<option>', {
+                        value: index,
+                        text: item
+                    }));
+            });
+        });
+
+        $("#id_btn_filtrar").click(function () {
+            buscarPorFiltrosGestionProductos();
+        });
+
+        $("#id_txt_filtro").on('keypress', function (e) {
+            if (e.which == 13) {
+                var fil = $("#id_txt_filtro").val();
+                $.getJSON("buscarProductoPorNombre", {
+                    "filtro": fil
+                }, function (lista) {
+                    agregarGrilla(lista);
+                });
+            }
+        });
+
     });
 
     function limpiarFormularioRegistro() {
-        $("#id_reg_numeroSala").val("")
-        $("#id_reg_piso").val("")
-        $("#id_reg_recursos").val("")
-        $("#id_reg_nroAlumnos").val("")
-        $("#id_reg_sede").val("")
-        $("#id_reg_tipoSala").val("")
+        $("#id_reg_codigo").val("")
+        $("#id_reg_nombre").val("")
+        $("#id_reg_descripcion").val("")
+        $("#id_reg_precio").val("")
+        $("#id_reg_stock").val("")
+        $("#id_reg_nro_documento").val("")
+        $("#id_reg_tipo_documento").val("")
+        $("#id_reg_tipo").val("")
     }
 
     $("#id_btn_registra").click(function () {
@@ -258,7 +293,7 @@
         //if (validator.isValid()) {
         $.ajax({
             type: "POST",
-            url: "insertPrestatario",
+            url: "insertProducto",
             data: $('#id_form_registra').serialize(),
             success: function (data) {
                 if (data.MSG_OK == null) {
@@ -315,8 +350,8 @@
         //	validator.validate();
         //	if (validator.isValid()) {
         $.ajax({
-            type: "POST",
-            url: "actualizarPrestatario",
+            type: "PUT",
+            url: "actualizarProducto",
             data: $('#id_form_actualiza').serialize(),
             success: function (data) {
                 if (data.MSG_OK == null) {
