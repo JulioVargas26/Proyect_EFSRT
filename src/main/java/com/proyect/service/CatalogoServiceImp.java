@@ -7,20 +7,19 @@ import com.proyect.repository.DataCatalogoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Service
-public class DataCatalogoServiceImp implements DataCatalogoService {
+public class CatalogoServiceImp implements CatalogoService {
 
 	@Autowired
-	private DataCatalogoRepository dataCatalogoRepository;
+	private CatalogoRepository catalogoRepository;
 
-	public List<DataCatalogo> listarTodos(){
-		return dataCatalogoRepository.findAll();
+	@Override
+	public List<Catalogo> findAll() {
+		return catalogoRepository.findAll();
 	}
 
-	public List<DataCatalogo> listarPorCatalogo(Long catalogoId){
-		return dataCatalogoRepository.findAllByCatalogo(catalogoId);
-	}
+
+
 }

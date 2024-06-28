@@ -1,5 +1,6 @@
 package com.proyect.data;
 
+import com.proyect.entity.DataCatalogo;
 import com.proyect.entity.Tipo;
 import jakarta.validation.constraints.NotNull;
 
@@ -13,7 +14,7 @@ public record DTOProductoUpdate(@NotNull Long id_producto,
                                 double stock_producto,
                                 String documento_producto,
 
-                                Tipo tipo,
+                                DataCatalogo tipo,
                                 Boolean activo,
                                 LocalDateTime modification_date) {
 }
