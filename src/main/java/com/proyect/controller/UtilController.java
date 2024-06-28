@@ -1,25 +1,28 @@
 package com.proyect.controller;
 
-import com.proyect.entity.Producto;
-import com.proyect.entity.Tipo;
-import com.proyect.service.ProductoService;
-import com.proyect.service.TipoService;
+import com.proyect.entity.*;
+import com.proyect.service.*;
 import com.proyect.util.TipoDocumento;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
 @Controller
 public class UtilController {
 
+/*
 	@Autowired
 	private TipoService tipoService;
+*/
 
 	@Autowired
+	private DataCatalogoService dataCatalogoService;
+	@Autowired
 	private ProductoService productoService;
+    @Autowired
+    private CatalogoService catalogoService;
 
 	@GetMapping("/listarRegistrosActivoTrue")
 	@ResponseBody
@@ -39,9 +42,18 @@ public class UtilController {
 		return map;
 	}
 
-	@GetMapping("/listaTipo")
+	@GetMapping("/listarPorCatalogo")
 	@ResponseBody
-	public HashMap<String, String> listaTipo() {
-		return tipoService.listaTodos().stream().collect(HashMap::new, (m, v) -> m.put(v.getId_tipo().toString(), v.getDescripcion()), HashMap::putAll);
+	public HashMap<String, String> listarPorCatalogo() {
+		return catalogoService.findAll().stream().collect(HashMap::new, (m, v) -> m.put(v.getIdCatalogo().toString(), v.getDescripcion()), HashMap::putAll);
 	}
+
+
+	@GetMapping("/listarPorDataCatalogo/{catalogoId}")
+	@ResponseBody
+	public HashMap<String, String> listarPorDataCatalogo(@PathVariable Long catalogoId) {
+		System.out.println("listar tipo documento "+catalogoId);
+		return dataCatalogoService.listarPorCatalogo(catalogoId).stream().collect(HashMap::new, (m, v) -> m.put(v.getIdDataCatalogo().toString(), v.getDescripcion()), HashMap::putAll);
+	}
+
 }

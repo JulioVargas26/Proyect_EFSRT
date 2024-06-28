@@ -25,7 +25,7 @@ public record DTOProductoList(Long id_producto,
                 producto.getPrecio_producto(),
                 producto.getStock_producto(),
                 producto.getDocumento_producto(),
-                producto.getTipo().getDescripcion(),
+                producto.getData_catalogo().getDescripcion(),
                 producto.getRegistros().getReporteEstado(),
                 producto.getRegistros().getCreation_date(),
                 producto.getRegistros().getModification_date()

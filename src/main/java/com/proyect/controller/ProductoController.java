@@ -1,7 +1,9 @@
 package com.proyect.controller;
 
+import com.proyect.entity.DataCatalogo;
 import com.proyect.entity.Producto;
 import com.proyect.entity.Tipo;
+import com.proyect.service.DataCatalogoService;
 import com.proyect.service.ProductoService;
 import com.proyect.service.TipoService;
 import com.proyect.util.AppSettings;
@@ -9,18 +11,22 @@ import com.proyect.util.FunctionUtil;
 import com.proyect.util.TipoDocumento;
 import com.proyect.util.ValidacionesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 import static com.proyect.util.FunctionUtil.*;
+import static com.proyect.util.MessagesUtil.*;
 
 @Controller
 public class ProductoController {
 
 	@Autowired
 	TipoService tipoService;
+	@Autowired
+	DataCatalogoService dataCatalogoService;
 	@Autowired
 	ProductoService productoService;
 
@@ -56,7 +62,7 @@ public class ProductoController {
 
 	@GetMapping("/buscarPorFiltrosGestionProducto")
 	@ResponseBody
-	public Map<String, Object> listaComplejo(@RequestParam Long cod_prod,
+	public Map<String, Object> listaComplejo(@RequestParam(required = false, defaultValue = DEFAULT_PARAM_VALUE) Long cod_prod,
 											 @RequestParam String nom_prod,
 											 @RequestParam String des_prod) {
 		try {
@@ -66,17 +72,17 @@ public class ProductoController {
 					stringToLikeAll(des_prod));
 
 			return productos.isEmpty()
-					? Collections.singletonMap(DEFAULT_MESSAGE_KEY, "No se encontraron resultados")
+					? Collections.singletonMap(DEFAULT_MESSAGE_KEY, MESSAGE_LIST_EMPTY)
 					: Collections.singletonMap(DEFAULT_LIST_KEY, productos);
 		} catch (Exception e) {
 			// log.error("Error al procesar la solicitud: " + e.getMessage(), e);
-			return Collections.singletonMap(DEFAULT_MESSAGE_KEY, "Ocurrió un error al procesar la solicitud.");
+			return Collections.singletonMap(DEFAULT_MESSAGE_KEY, MSG_ERROR_DEFAULT);
 		}
 	}
 
 	@PostMapping("/insertProducto")
 	@ResponseBody
-	public Map<?, ?> registrarProducto(Producto obj) {
+	public ResponseEntity<Map<?, ?>> registrarProducto(Producto obj) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		/*if (ValidacionesUtil.esVacioInt(obj.getCodigo_producto())) {
@@ -128,24 +134,97 @@ public class ProductoController {
 			return map;
 		}*/
 
-		Tipo objTipo= tipoService.getReferenceById(obj.getTipo().getId_tipo());
-		if (objTipo == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Tipo de Producto no encontrado");
+		/*DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
+		if (dataCatalogo == null) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
 			return map;
 		}
-		obj.setTipo(objTipo);
+		obj.setData_catalogo(dataCatalogo);*/
 		Producto objSalida = productoService.insertar(obj);
 		if (objSalida == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "ERROR AL REGISTRAR");
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {
 			List<Producto> list = new ArrayList<>();
 			list.add(productoService.buscarPorId(objSalida.getId_producto()).get());
 			System.out.print("ID NUEVO PRESTATARIO : " + obj.getId_producto());
 			map.put(DEFAULT_LIST_KEY, list);
-			map.put(DEFAULT_MESSAGE_KEY, "EL REGISTRO FUE EXITOSO!");
+			map.put(DEFAULT_MESSAGE_KEY, MSG_REGISTRO_OK);
+		}
+		return ResponseEntity.ok(map);
+	}
+
+	/*@PostMapping("/insertProducto")
+	@ResponseBody
+	public Map<?, ?> registrarProducto(Producto obj) {
+		HashMap<String, Object> map = new HashMap<String, Object>();
+
+		*//*if (ValidacionesUtil.esVacioInt(obj.getCodigo_producto())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo Codigo no puede ser CERO");
+			return map;
+		}
+		if (ValidacionesUtil.esVacio(obj.getNombre_producto())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo apellido paterno vacío");
+			return map;
+		}
+		if (ValidacionesUtil.esVacioDouble(obj.getStock_producto())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo apellido materno vacío");
+			return map;
+		}
+		if (ValidacionesUtil.esVacioDouble(obj.getPrecio_producto())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo salario aprox. vacío");
+			return map;
+		}
+
+		if (ValidacionesUtil.esVacio(String.valueOf(obj.getTipo_documento()))) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de documento");
+			return map;
+		}
+		TipoDocumento[] tipoDocumentos = TipoDocumento.values();
+		boolean coincidenciatipoDocumentos = false;
+		for (TipoDocumento item : tipoDocumentos) {
+			if (obj.getTipo_documento().equalsIgnoreCase(item.toString().substring(0, 3))) {
+				obj.setTipo_documento(item.toString());
+				coincidenciatipoDocumentos = true;
+			}
+		}
+		if (!coincidenciatipoDocumentos) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Valor de Tipo Documento no valido");
+			return map;
+		}
+
+		if (ValidacionesUtil.esVacio(obj.getDocumento_producto())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo número documento vacío");
+			return map;
+		}
+
+		if (ValidacionesUtil.esVacio(obj.getDescripcion_producto())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo descripcion vacío");
+			return map;
+		}
+
+		if (ValidacionesUtil.esVacio(obj.getTipo().getDescripcion())) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de producto");
+			return map;
+		}*//*
+
+		DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
+		if (dataCatalogo == null) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
+			return map;
+		}
+		obj.setData_catalogo(dataCatalogo);
+		Producto objSalida = productoService.insertar(obj);
+		if (objSalida == null) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
+		} else {
+			List<Producto> list = new ArrayList<>();
+			list.add(productoService.buscarPorId(objSalida.getId_producto()).get());
+			System.out.print("ID NUEVO PRESTATARIO : " + obj.getId_producto());
+			map.put(DEFAULT_LIST_KEY, list);
+			map.put(DEFAULT_MESSAGE_KEY, MSG_REGISTRO_OK);
 		}
 		return map;
-	}
+	}*/
 
 	@PutMapping("/actualizarProducto")
 	@ResponseBody
@@ -200,23 +279,22 @@ public class ProductoController {
 			return map;
 		}*/
 
-		Tipo objTipo= tipoService.getReferenceById(obj.getTipo().getId_tipo());
-		if (objTipo == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Tipo de Producto no encontrado");
+		/*DataCatalogo dataCatalogo= dataCatalogoService.getFindById(obj.getData_catalogo().getIdDataCatalogo());
+		if (dataCatalogo == null) {
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
 			return map;
 		}
-
+		obj.setData_catalogo(dataCatalogo);*/
 		obj.getRegistros().setActivo(AppSettings.ACTIVO);
 		obj.getRegistros().setModification_date(new Date());
-		obj.setTipo(objTipo);
 		Producto objSalida = productoService.actualizar(obj);
 		if (objSalida == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "ERROR AL REGISTRAR");
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {
 			List<Producto> list = new ArrayList<>();
 			list.add(productoService.buscarPorId(objSalida.getId_producto()).get());
 			map.put(DEFAULT_LIST_KEY, list);
-			map.put("MSG_OK", "LA ACTUALIZACION FUE EXITOSA!");
+			map.put(DEFAULT_MESSAGE_KEY, MSG_ACTUALIZACION_OK);
 		}
 		return map;
 	}
@@ -231,11 +309,11 @@ public class ProductoController {
 		objProducto.getRegistros().setActivo(objProducto.getRegistros().getActivo() == AppSettings.ACTIVO ? AppSettings.INACTIVO : AppSettings.ACTIVO);
 		Producto objSalida =  productoService.actualizar(objProducto);
 		if (objSalida == null) {
-			map.put("MSG", "ERROR AL REGISTRA");
+			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {
 			List<Producto> listProducto = new ArrayList<>();
 			listProducto.add(productoService.buscarPorId(objSalida.getId_producto()).get());
-			map.put("lista", listProducto);
+			map.put(DEFAULT_LIST_KEY, listProducto);
 		}
 		return map;
 	}

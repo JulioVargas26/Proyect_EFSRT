@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Precio </label>
+                                                   for="id_reg_numeroSala">Precio Unitario</label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -121,7 +121,18 @@
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_tipo" name="tipo" class="form-control">
+                                            <select id="id_reg_catalogo" name="data_catalogo" class="form-control">
+                                                <option value="">[Seleccione]</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label" for="id_reg_tipoSala">Sub
+                                            tipo </label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                                            <select id="id_reg_data_catalogo" name="data_catalogo" class="form-control">
                                                 <option value="">[Seleccione]</option>
                                             </select>
                                         </div>
@@ -228,7 +239,7 @@
                                         </div>
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Precio </label>
+                                                   for="id_reg_numeroSala">Precio Unitario</label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -284,8 +295,19 @@
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_tipo" name="tipo" class="form-control">
-                                                <option value="">[Seleccione]</option>
+                                            <select id="id_act_catalogo" name="data_catalogo" class="form-control">
+                                                <option value="">[Seleccione Tipo]</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label" for="id_reg_tipoSala">Sub
+                                            tipo </label>
+                                        <div class="input-group col-lg-8">
+                                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                                            <select id="id_act_data_catalogo" name="catalogo" class="form-control">
+                                                <option value="">[Seleccione Sub Tipo]</option>
                                             </select>
                                         </div>
                                     </div>

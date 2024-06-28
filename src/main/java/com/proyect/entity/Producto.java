@@ -29,20 +29,20 @@ public class Producto {
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name="id_tipo")
-	private Tipo tipo;
+	@JoinColumn(name="idDataCatalogo")
+	private DataCatalogo data_catalogo;
 
 	@Embedded
 	private Registros registros = new Registros();
 
-	public Producto(DTOProductoSave dtoProductoSave , Tipo tipo) {
+	public Producto(DTOProductoSave dtoProductoSave , DataCatalogo tipo) {
 		this.codigo_producto = dtoProductoSave.codigo_producto();
 		this.nombre_producto = dtoProductoSave.nombre_producto();
 		this.descripcion_producto = dtoProductoSave.descripcion_producto();
 		this.precio_producto = dtoProductoSave.precio_producto();
 		this.stock_producto = dtoProductoSave.stock_producto();
 		this.documento_producto = dtoProductoSave.documento_producto();
-		this.tipo = tipo;
+		this.data_catalogo = tipo;
 	}
 
 	public Producto updateData(DTOProductoUpdate dtoProductoUpdate) {
@@ -65,7 +65,7 @@ public class Producto {
 			this.documento_producto = dtoProductoUpdate.documento_producto();
 		}
 		if (dtoProductoUpdate.tipo() != null) {
-			this.tipo = dtoProductoUpdate.tipo();
+			this.data_catalogo = dtoProductoUpdate.tipo();
 		}
 		return this;
 	}

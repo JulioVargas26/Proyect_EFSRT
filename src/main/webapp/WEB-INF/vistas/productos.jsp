@@ -22,8 +22,6 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.5.2/css/buttons.bootstrap4.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.2.3/css/responsive.bootstrap4.min.css">
     <title>Intranet</title>
     <style>
         .navbar {
@@ -42,6 +40,7 @@
             background: rgba(255, 255, 255, 0.56);
             border-radius: 1rem;
         }
+
         input[type="checkbox"] {
             height: 2em; /* Aumenta la altura del checkbox */
             width: 2em; /* Aumenta el ancho del checkbox */
@@ -67,9 +66,9 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span>
                         <input
-                            class="form-control input-sm" type="text"
-                            id="id_txt_codigo" name="filtro"  maxlength="10"
-                            autocomplete="off" placeholder="Ingrese el codigo">
+                                class="form-control input-sm" type="text"
+                                id="id_txt_codigo" name="filtro" maxlength="10"
+                                autocomplete="off" placeholder="Ingrese el codigo">
                     </div>
                 </div>
                 <div class=" col-lg-6">
@@ -77,9 +76,9 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span>
                         <input
-                            class="form-control input-sm" type="text"
-                            id="id_txt_nombre" name="filtro" maxlength="30"
-                            autocomplete="off" placeholder="Ingrese el nombre">
+                                class="form-control input-sm" type="text"
+                                id="id_txt_nombre" name="filtro" maxlength="30"
+                                autocomplete="off" placeholder="Ingrese el nombre">
                     </div>
                 </div>
             </div>
@@ -93,26 +92,26 @@
                             placeholder="Ingrese la descripcion">
                     </div>
                 </div>
-                <div class="col-sm-6 ">
+                <%--<div class="col-sm-6 ">
                     <div class="input-group col-lg-12 ">
-                        <input type="checkbox" id="id_txt_activo">
+                        <input type="checkbox" id="id_txt_activo" class="filter-checkbox" data-product-id="123">
                         <label class="col-lg-3 control-label" for="id_txt_activo"> Ver Inactivos </label>
 
                     </div>
-                </div>
+                </div>--%>
             </div>
 
             <div class="form-group">
                 <div class="col-md-3 col-sm-6 col-mb-3">
                     <button type="button" class="btn btn-primary btn-block "
-                            id="id_btn_filtrar">Buscar
+                            id="id_btn_filtrar"><i class="bi bi-search"></i> Buscar
                     </button>
                 </div>
 
                 <div class="col-md-3 col-sm-6 col-mb-3">
                     <button type="button" data-toggle='modal'
                             data-target="#id_div_modal_registra"
-                            class='btn btn-success btn-block '>+Nuevo
+                            class='btn btn-success btn-block '><i class="bi bi-plus-square"></i> Nuevo
                     </button>
                 </div>
             </div>
@@ -128,7 +127,7 @@
                             <th style="width: 25%">Codigo</th>
                             <th style="width: 3%">Nombre</th>
                             <th style="width: 5%">Descripcion</th>
-                            <th style="width: 10%">Precio</th>
+                            <th style="width: 10%">Precio Total</th>
                             <th style="width: 22%">Stock</th>
                             <th style="width: 10%">Nro Documento</th>
                             <th style="width: 10%">Tipo</th>
@@ -157,29 +156,6 @@
 <script type="text/javascript" src="js/global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/dataTables.buttons.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.bootstrap4.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.html5.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.print.min.js"></script>
-<script src="https://cdn.datatables.net/buttons/1.5.2/js/buttons.colVis.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/dataTables.responsive.min.js"></script>
-<script src="https://cdn.datatables.net/responsive/2.2.3/js/responsive.bootstrap4.min.js"></script>
-
-<script>
-    $(document).ready(function() {
-        var table = $('#id_table').DataTable({
-            lengthChange: false,
-            buttons: [
-                'copy', 'excel', 'pdf', 'colvis'
-            ]
-        });
-
-        table.buttons().container().appendTo( '#id_table_wrapper .col-md-6:eq(0)' );
-    });
-</script>
 <script type="text/javascript">
     <!-- Agregar aqu� -->
     (() => {
@@ -241,14 +217,14 @@
             });
         });
 
-        $.getJSON("listaTipo", {}, function (data) {
+        $.getJSON("listarPorCatalogo", {}, function (data) {
             $.each(data, function (index, item) {
-                $("#id_reg_tipo").append(
+                $("#id_act_catalogo").append(
                     $('<option>', {
                         value: index,
                         text: item
                     }));
-                $("#id_act_tipo").append(
+                $("#id_reg_catalogo").append(
                     $('<option>', {
                         value: index,
                         text: item
@@ -270,6 +246,7 @@
                 });
             }
         });
+
 
     });
 
@@ -331,6 +308,7 @@
                     $('#id_div_modal_registra').modal("hide");
                     limpiarFormularioRegistro();
                     agregarGrilla(data.LIST);
+                    window.location.reload();
                     //validator.resetForm();
                 }
             },
@@ -389,6 +367,7 @@
                     $('#id_div_modal_registra').modal("hide");
                     limpiarFormularioRegistro();
                     agregarGrilla(data.LIST);
+                    window.location.reload();
                     //validator.resetForm();
                 }
             },
@@ -478,7 +457,6 @@
                     pageLength: 10,
                     lengthChange: false,
                     columns: [
-
                         {
                             data: "id_producto"
                         },
@@ -492,16 +470,35 @@
                             data: "descripcion_producto"
                         },
                         {
-                            data: "precio_producto"
+                            data: function (row) {
+                                if (row.stock_producto != '' && row.precio_producto != '') {
+                                    total = row.precio_producto * row.stock_producto;
+                                    precio = total.toFixed(2);
+                                }
+                                return precio // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
+                            }
+                            //data: "precio_producto"
                         },
                         {
                             data: "stock_producto"
                         },
                         {
-                            data: "documento_producto"
+                            data: function (row) {
+                                if (row.documento_producto != '') {
+                                    doc = row.tipo_documento.toString().substring(0, 3) + " - " + row.documento_producto;
+                                }
+                                return doc // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
+                            }
+                            //data: "documento_producto"
                         },
                         {
-                            data: "tipo.descripcion"
+                            data: function (row) {
+                                if (row.data_catalogo.descripcion != "") {
+                                    sub = row.data_catalogo.catalogo.descripcion+" " + row.data_catalogo.descripcion;
+                                }
+                                return sub // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
+                            }
+                           // data: "data_catalogo.descripcion"
                         },
                         {
                             data: function (row, type, val,
@@ -523,7 +520,7 @@
                                     + '\',\''
                                     + row.documento_producto
                                     + '\',\''
-                                    + row.tipo.id_tipo
+                                    + row.data_catalogo.idDataCatalogo
                                     + '\')">Editar</button>';
                                 return salida;
                             },
@@ -543,10 +540,11 @@
                             className: 'text-center'
                         },]
                 });
+
     }
 
     function editar(id, cod_prod, nom_prod, des_prod, pre_prod, sto_prod,
-                    tipo_documento, nro_doc_prod, tipo) {
+                    tipo_documento, nro_doc_prod, data_catalogo, catalogo) {
         $('#id_act_ID').val(id);
         $('#id_act_cod_prod').val(cod_prod);
         $('#id_act_nom_prod').val(nom_prod);
@@ -555,7 +553,8 @@
         $('#id_act_tipo_documento').val(tipo_documento);
         $('#id_act_nro_doc_prod').val(nro_doc_prod);
         $('#id_act_des_prod').val(des_prod);
-        $('#id_act_tipo').val(tipo);
+        $('#id_act_data_catalogo').val(data_catalogo);
+        $('#id_act_catalogo').val(catalogo);
         $('#id_div_modal_actualiza').modal("show");
     }
 
@@ -575,6 +574,64 @@
         });
     }
 
+</script>
+
+<script>
+    /*$(document).ready(function() {
+
+        $("#id_act_catalogo").change(function() {
+            var catalogoId = $(this).val();
+
+            $.ajax({
+                url: "/listarPorCatalogo/" + catalogoId,
+                type: "GET",
+                success: function(data) {
+                    $("#id_act_data_catalogo").empty();
+
+                    c
+
+                }
+            });
+        });
+    });*/
+
+    /*//asignar evento change al select con ID "idLaboratorio"
+    $(document).on("change","#idLaboratorio",function(){
+        //variable
+        let cod;
+        cod=$(this).val();
+        //limpiar combo de tipo
+        $("#idTipo").empty().append("<option>[Seleccione Tipo de Medicamento]</option>")
+        $.get("/medicamento/listarPorLaboratorio?codigo="+cod,function(response){
+            //bucle
+            $.each(response,function(index,item){
+                $("#idTipo").append("<option value='"+item.codigo+"'>"+item.nombre+"</option>");
+            })
+            $("#idTipo").val(codTipo);
+
+        })
+    })
+    */
+    $(document).ready(function() {
+        $("#id_act_catalogo").change(function() {
+            var catalogoId = $(this).val();
+            $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
+            $.ajax({
+                url: "/listarPorDataCatalogo/" + catalogoId,
+                method: "GET",
+                success: function(data) {
+                    $.each(data, function(index, item) {
+                        $("#id_act_data_catalogo").append(
+                            $('<option>', {
+                                value: item,
+                                text: item
+                            }));
+                        //$("#id_act_data_catalogo").append("<option value='" + index + "'>" + item + "</option>");
+                    });
+                }
+            });
+        });
+    });
 </script>
 
 <script type="text/javascript">
