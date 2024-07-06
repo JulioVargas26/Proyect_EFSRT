@@ -232,6 +232,43 @@
             });
         });
 
+        $("#id_act_catalogo").change(function () {
+            var catalogoId = $(this).val();
+            $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
+            $.ajax({
+                url: "/listarPorDataCatalogo/" + catalogoId,
+                method: "GET",
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $("#id_act_data_catalogo").append(
+                            $('<option>', {
+                                value: item,
+                                text: item
+                            }));
+                    });
+                }
+            });
+
+        });
+        $("#id_reg_catalogo").change(function () {
+            var catalogoId = $(this).val();
+            $("#id_reg_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
+            $.ajax({
+                url: "/listarPorDataCatalogo/" + catalogoId,
+                method: "GET",
+                success: function (data) {
+                    $.each(data, function (index, item) {
+                        $("#id_reg_data_catalogo").append(
+                            $('<option>', {
+                                value: item,
+                                text: item
+                            }));
+                    });
+                }
+            });
+
+        });
+
         $("#id_btn_filtrar").click(function () {
             buscarPorFiltrosGestionProductos();
         });
@@ -477,7 +514,6 @@
                                 }
                                 return precio // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
                             }
-                            //data: "precio_producto"
                         },
                         {
                             data: "stock_producto"
@@ -489,16 +525,15 @@
                                 }
                                 return doc // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
                             }
-                            //data: "documento_producto"
                         },
                         {
                             data: function (row) {
                                 if (row.data_catalogo.descripcion != "") {
-                                    sub = row.data_catalogo.catalogo.descripcion+" " + row.data_catalogo.descripcion;
+                                    sub = row.data_catalogo.catalogo.descripcion + " " + row.data_catalogo.descripcion;
                                 }
                                 return sub // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
                             }
-                           // data: "data_catalogo.descripcion"
+                             //data: "data_catalogo.descripcion"
                         },
                         {
                             data: function (row, type, val,
@@ -576,63 +611,6 @@
 
 </script>
 
-<script>
-    /*$(document).ready(function() {
-
-        $("#id_act_catalogo").change(function() {
-            var catalogoId = $(this).val();
-
-            $.ajax({
-                url: "/listarPorCatalogo/" + catalogoId,
-                type: "GET",
-                success: function(data) {
-                    $("#id_act_data_catalogo").empty();
-
-                    c
-
-                }
-            });
-        });
-    });*/
-
-    /*//asignar evento change al select con ID "idLaboratorio"
-    $(document).on("change","#idLaboratorio",function(){
-        //variable
-        let cod;
-        cod=$(this).val();
-        //limpiar combo de tipo
-        $("#idTipo").empty().append("<option>[Seleccione Tipo de Medicamento]</option>")
-        $.get("/medicamento/listarPorLaboratorio?codigo="+cod,function(response){
-            //bucle
-            $.each(response,function(index,item){
-                $("#idTipo").append("<option value='"+item.codigo+"'>"+item.nombre+"</option>");
-            })
-            $("#idTipo").val(codTipo);
-
-        })
-    })
-    */
-    $(document).ready(function() {
-        $("#id_act_catalogo").change(function() {
-            var catalogoId = $(this).val();
-            $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
-            $.ajax({
-                url: "/listarPorDataCatalogo/" + catalogoId,
-                method: "GET",
-                success: function(data) {
-                    $.each(data, function(index, item) {
-                        $("#id_act_data_catalogo").append(
-                            $('<option>', {
-                                value: item,
-                                text: item
-                            }));
-                        //$("#id_act_data_catalogo").append("<option value='" + index + "'>" + item + "</option>");
-                    });
-                }
-            });
-        });
-    });
-</script>
 
 <script type="text/javascript">
     /**$('#id_form_registra')

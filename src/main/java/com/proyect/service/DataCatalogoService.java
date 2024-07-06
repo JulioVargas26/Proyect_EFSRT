@@ -9,4 +9,6 @@ public interface DataCatalogoService {
 
 	public List<DataCatalogo> listarTodos();
 	public List<DataCatalogo> listarPorCatalogo(Long catalogoId);
+
+    DataCatalogo getFindById(Long idDataCatalogo);
 }

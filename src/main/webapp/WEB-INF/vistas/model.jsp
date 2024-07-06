@@ -122,7 +122,7 @@
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
                                             <select id="id_reg_catalogo" name="data_catalogo" class="form-control">
-                                                <option value="">[Seleccione]</option>
+                                                <option value="">[Seleccione Tipo]</option>
                                             </select>
                                         </div>
                                     </div>
@@ -132,8 +132,8 @@
                                             tipo </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_data_catalogo" name="data_catalogo" class="form-control">
-                                                <option value="">[Seleccione]</option>
+                                            <select id="id_reg_data_catalogo" name="catalogo" class="form-control">
+                                                <option value="">[Seleccione Sub Tipo]</option>
                                             </select>
                                         </div>
                                     </div>
@@ -321,6 +321,7 @@
                                             </div>
                                         </div>
                                     </div>
+
                                 </div>
                             </div>
                         </div>
