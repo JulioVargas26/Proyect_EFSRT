@@ -44,15 +44,17 @@ public class UtilController {
 
 	@GetMapping("/listarPorCatalogo")
 	@ResponseBody
-	public HashMap<String, String> listarPorCatalogo() {
+	public HashMap<?, ?> listarPorCatalogo() {
+		System.out.println("listar Data Catalogo ");
+
 		return catalogoService.findAll().stream().collect(HashMap::new, (m, v) -> m.put(v.getIdCatalogo().toString(), v.getDescripcion()), HashMap::putAll);
 	}
 
 
 	@GetMapping("/listarPorDataCatalogo/{catalogoId}")
 	@ResponseBody
-	public HashMap<String, String> listarPorDataCatalogo(@PathVariable Long catalogoId) {
-		System.out.println("listar tipo documento "+catalogoId);
+	public HashMap<?, ?> listarPorDataCatalogo(@PathVariable Long catalogoId) {
+		System.out.println("listar Data Catalogo "+catalogoId);
 		return dataCatalogoService.listarPorCatalogo(catalogoId).stream().collect(HashMap::new, (m, v) -> m.put(v.getIdDataCatalogo().toString(), v.getDescripcion()), HashMap::putAll);
 	}
 

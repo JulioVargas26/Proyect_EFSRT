@@ -11,9 +11,9 @@
             </div>
 
             <div class="collapse navbar-collapse">
-                <ul class="nav navbar-nav navbar-left">
+                <%--<ul class="nav navbar-nav navbar-left">
                     <li><a href="intranet.jsp">prestatario</a></li>
-                </ul>
+                </ul>--%>
                 <ul class="nav navbar-nav navbar-left">
                     <li><a href="productos.jsp">Productos</a></li>
                 </ul>
