@@ -21,11 +21,12 @@ public class DataCatalogoServiceImp implements DataCatalogoService {
 	}
 
 	public List<DataCatalogo> listarPorCatalogo(Long catalogoId){
-		return dataCatalogoRepository.findAllByCatalogos(catalogoId);
+		return dataCatalogoRepository.findAllByCatalogo(catalogoId);
 	}
 
 	@Override
 	public DataCatalogo getFindById(Long idDataCatalogo) {
-		return dataCatalogoRepository.findById(idDataCatalogo).orElse(null);
+		return dataCatalogoRepository.getReferenceById(idDataCatalogo);
 	}
+
 }

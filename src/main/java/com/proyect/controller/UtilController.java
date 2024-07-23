@@ -24,6 +24,9 @@ public class UtilController {
     @Autowired
     private CatalogoService catalogoService;
 
+	@GetMapping("/")
+	public String verProducto() {	return "productos";  }
+
 	@GetMapping("/listarRegistrosActivoTrue")
 	@ResponseBody
 	public List<Producto> listarProducto() {

@@ -7,7 +7,7 @@ import lombok.*;
 @Getter
 @Setter
 @Entity
-@Table(name = "data_catalogo")
+@Table(name = "dataCatalogo")
 @AllArgsConstructor
 @NoArgsConstructor
 @EqualsAndHashCode(of = "idDataCatalogo")

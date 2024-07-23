@@ -29,7 +29,7 @@
                                     <div class="row form-group ">
                                         <div class="col-lg-6">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Codigo </label>
+                                                   for="id_reg_cod_prod">Codigo </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -40,7 +40,7 @@
                                         </div>
                                         <div class=" col-lg-6">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Nombre </label>
+                                                   for="id_reg_nom_prod">Nombre </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -54,7 +54,7 @@
                                     <div class="row form-group ">
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Cantidad </label>
+                                                   for="id_reg_sto_prod">Cantidad </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -65,7 +65,7 @@
                                         </div>
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Precio Unitario</label>
+                                                   for="id_reg_pre_prod">Precio Unitario</label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -79,7 +79,7 @@
                                     <div class="row form-group ">
                                         <div class="col-lg-6">
 
-                                            <label class="col-lg-4 control-label" for="id_reg_tipoSala">Tipo
+                                            <label class="col-lg-4 control-label" for="id_reg_tipo_documento">Tipo
                                                 Documento </label>
                                             <div class="input-group col-lg-8">
                                                 <span class="input-group-addon"><i
@@ -93,7 +93,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Nro. Documento </label>
+                                                   for="id_reg_nro_doc_prod">Nro. Documento </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -106,7 +106,7 @@
 
                                     <div class="form-group ">
                                         <label class="col-lg-3 control-label"
-                                               for="id_reg_numeroSala">Descripcion Producto </label>
+                                               for="id_reg_des_prod">Descripcion Producto </label>
                                         <div class="input-group col-lg-8 ">
 													<span class="input-group-addon"><i
                                                             class="bi bi-boxes"></i></span><textarea
@@ -117,22 +117,22 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_tipoSala">Tipo
+                                        <label class="col-lg-3 control-label" for="id_reg_data_catalogo">Tipo
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_catalogo" name="data_catalogo" class="form-control">
+                                            <select id="id_reg_data_catalogo" name="data_catalogo" class="form-control">
                                                 <option value="">[Seleccione Tipo]</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_tipoSala">Sub
+                                        <label class="col-lg-3 control-label" for="id_reg_catalogo">Sub
                                             tipo </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_data_catalogo" name="catalogo" class="form-control">
+                                            <select id="id_reg_catalogo" name="catalogo" class="form-control">
                                                 <option value="">[Seleccione Sub Tipo]</option>
                                             </select>
                                         </div>
@@ -203,7 +203,7 @@
                                     <div class="row form-group ">
                                         <div class="col-lg-6">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Codigo </label>
+                                                   for="id_act_cod_prod">Codigo </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -214,7 +214,7 @@
                                         </div>
                                         <div class=" col-lg-6">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Nombre </label>
+                                                   for="id_act_nom_prod">Nombre </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -228,7 +228,7 @@
                                     <div class="row form-group ">
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Cantidad </label>
+                                                   for="id_act_sto_prod">Cantidad </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -239,7 +239,7 @@
                                         </div>
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Precio Unitario</label>
+                                                   for="id_act_pre_prod">Precio Unitario</label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -253,7 +253,7 @@
                                     <div class="row form-group ">
                                         <div class="col-lg-6">
 
-                                            <label class="col-lg-4 control-label" for="id_reg_tipoSala">Tipo
+                                            <label class="col-lg-4 control-label" for="id_act_tipo_documento">Tipo
                                                 Documento </label>
                                             <div class="input-group col-lg-8">
                                                 <span class="input-group-addon"><i
@@ -267,7 +267,7 @@
                                         </div>
                                         <div class="col-lg-6">
                                             <label class="col-lg-4 control-label"
-                                                   for="id_reg_numeroSala">Nro. Documento </label>
+                                                   for="id_act_nro_doc_prod">Nro. Documento </label>
                                             <div class="input-group col-lg-8 ">
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
@@ -280,7 +280,7 @@
 
                                     <div class="form-group ">
                                         <label class="col-lg-3 control-label"
-                                               for="id_reg_numeroSala">Descripcion Producto </label>
+                                               for="id_act_des_prod">Descripcion Producto </label>
                                         <div class="input-group col-lg-8 ">
 													<span class="input-group-addon"><i
                                                             class="bi bi-boxes"></i></span><textarea
@@ -291,22 +291,22 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_tipoSala">Tipo
+                                        <label class="col-lg-3 control-label" for="id_act_data_catalogo">Tipo
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_catalogo" name="data_catalogo" class="form-control">
+                                            <select id="id_act_data_catalogo" name="data_catalogo" class="form-control">
                                                 <option value="">[Seleccione Tipo]</option>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_tipoSala">Sub
+                                        <label class="col-lg-3 control-label" for="id_act_catalogo">Sub
                                             tipo </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_data_catalogo" name="catalogo" class="form-control">
+                                            <select id="id_act_catalogo" name="catalogo" class="form-control">
                                                 <option value="">[Seleccione Sub Tipo]</option>
                                             </select>
                                         </div>

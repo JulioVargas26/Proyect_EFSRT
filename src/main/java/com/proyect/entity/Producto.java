@@ -1,13 +1,12 @@
 package com.proyect.entity;
 
-import com.proyect.data.DTOProductoSave;
-import com.proyect.data.DTOProductoUpdate;
-import com.proyect.util.Registros;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.proyect.data.*;
+import com.proyect.util.*;
 import jakarta.persistence.*;
 import lombok.*;
 
-@Table(name = "tb_producto")
+@Table(name = "producto")
 @Entity
 @Setter
 @Getter
@@ -28,21 +27,22 @@ public class Producto {
 	private String tipo_documento;
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne (fetch = FetchType.LAZY)
 	@JoinColumn(name="idDataCatalogo")
-	private DataCatalogo data_catalogo;
+	private DataCatalogo dataCatalogo;
 
 	@Embedded
 	private Registros registros = new Registros();
 
-	public Producto(DTOProductoSave dtoProductoSave , DataCatalogo tipo) {
+	public Producto(DTOProductoSave dtoProductoSave , DataCatalogo dataCatalogo) {
 		this.codigo_producto = dtoProductoSave.codigo_producto();
 		this.nombre_producto = dtoProductoSave.nombre_producto();
 		this.descripcion_producto = dtoProductoSave.descripcion_producto();
 		this.precio_producto = dtoProductoSave.precio_producto();
 		this.stock_producto = dtoProductoSave.stock_producto();
+		this.tipo_documento = String.valueOf(dtoProductoSave.tipo_documento());
 		this.documento_producto = dtoProductoSave.documento_producto();
-		this.data_catalogo = tipo;
+		this.dataCatalogo = dataCatalogo;
 	}
 
 	public Producto updateData(DTOProductoUpdate dtoProductoUpdate) {
@@ -61,11 +61,14 @@ public class Producto {
 		if (dtoProductoUpdate.stock_producto() != 0.0) {
 			this.stock_producto = dtoProductoUpdate.stock_producto();
 		}
+		if (dtoProductoUpdate.tipo_documento() != null) {
+			this.tipo_documento = String.valueOf(dtoProductoUpdate.tipo_documento());
+		}
 		if (dtoProductoUpdate.documento_producto() != null) {
 			this.documento_producto = dtoProductoUpdate.documento_producto();
 		}
-		if (dtoProductoUpdate.tipo() != null) {
-			this.data_catalogo = dtoProductoUpdate.tipo();
+		if (dtoProductoUpdate.dataCatalogo() != null) {
+			this.dataCatalogo = dtoProductoUpdate.dataCatalogo();
 		}
 		return this;
 	}
