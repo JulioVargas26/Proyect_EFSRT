@@ -1,31 +1,25 @@
 package com.proyect.controller;
 
-import com.proyect.entity.Catalogo;
 import com.proyect.entity.DataCatalogo;
 import com.proyect.entity.Producto;
-import com.proyect.entity.Tipo;
+import com.proyect.repository.ProductoRepository;
 import com.proyect.service.DataCatalogoService;
 import com.proyect.service.ProductoService;
-import com.proyect.service.TipoService;
 import com.proyect.util.AppSettings;
 import com.proyect.util.FunctionUtil;
-import com.proyect.util.TipoDocumento;
-import com.proyect.util.ValidacionesUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
-import static com.proyect.util.FunctionUtil.*;
+import static com.proyect.util.FunctionUtil.longToLikeAll;
+import static com.proyect.util.FunctionUtil.stringToLikeAll;
 import static com.proyect.util.MessagesUtil.*;
 
 @Controller
 public class ProductoController {
 
-	@Autowired
-	TipoService tipoService;
 	@Autowired
 	DataCatalogoService dataCatalogoService;
 	@Autowired
@@ -35,9 +29,9 @@ public class ProductoController {
 	private final static String DEFAULT_MESSAGE_KEY = "MSG_OK";
 	private final static String DEFAULT_MESSAGE_ERROR_KEY = "MSG_ERROR";
 	private final static String DEFAULT_LIST_KEY = "LIST";
+    @Autowired
+    private ProductoRepository productoRepository;
 
-	@GetMapping("/")
-	public String verProducto() {	return "productos";  }
 
 /*
 	@RequestMapping("/")
@@ -83,7 +77,7 @@ public class ProductoController {
 
 	@PostMapping("/insertProducto")
 	@ResponseBody
-	public Map<?, ?> registrarProducto(Producto obj) {
+	public Map<?, ?> registrarProducto(Producto obj,DataCatalogo idDataCatalogo) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		/*if (ValidacionesUtil.esVacioInt(obj.getCodigo_producto())) {
@@ -134,16 +128,19 @@ public class ProductoController {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de producto");
 			return map;
 		}*/
+		DataCatalogo dataCatalogo = new DataCatalogo();
+		dataCatalogo.setIdDataCatalogo(idDataCatalogo.getIdDataCatalogo());
 
-		DataCatalogo dataCatalogo= new DataCatalogo();
-		dataCatalogo =
-				dataCatalogoService.getFindById(obj.getData_catalogo().getCatalogo().getIdCatalogo());
+		System.out.println("dataCatalogo: " + dataCatalogo.getDescripcion());
 		if (dataCatalogo == null) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
 			return map;
 		}
-		obj.setData_catalogo(dataCatalogo);
+
+		obj.setDataCatalogo(dataCatalogo);
+
 		Producto objSalida = productoService.insertar(obj);
+
 		if (objSalida == null) {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {

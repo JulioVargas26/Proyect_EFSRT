@@ -8,7 +8,6 @@ import java.util.List;
 public interface DataCatalogoRepository extends JpaRepository<DataCatalogo, Long>{
 
 	@Query("Select r from DataCatalogo r where r.catalogo.idCatalogo = ?1")
-	public abstract List<DataCatalogo> findAllByCatalogos(Long catalogoId);
-
+	public List<DataCatalogo> findAllByCatalogo(Long catalogoId);
 
 }
