@@ -2,6 +2,7 @@ package com.proyect.service;
 
 import com.proyect.entity.Producto;
 import com.proyect.repository.ProductoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,40 +11,43 @@ import java.util.Optional;
 @Service
 public class ProductoServiceImpl implements ProductoService {
 
-	private final ProductoRepository repository;
+	@Autowired
+	private ProductoRepository productoRepository;
 
-	public ProductoServiceImpl(ProductoRepository repository) {
-		this.repository = repository;
+	/*@Override
+	public Producto insertar(Producto p) {
+		return productoRepository.save(p);
+	}*/
+
+	@Override
+	public Producto insertar(Producto jp) {
+		Producto salida = productoRepository.save(jp);
+		return salida;
 	}
 
 	@Override
-	public Producto insertar(Producto obj) {
-		return repository.save(obj);
-	}
-
-	@Override
-	public Producto actualizar(Producto obj) {
-		return repository.save(obj);
+	public Producto actualizar(Producto p) {
+		return productoRepository.save(p);
 	}
 
 	@Override
 	public Optional<Producto> buscarPorId(Long id) {
-		return repository.findById(id);
+		return productoRepository.findById(id);
 	}
 
 	@Override
 	public List<Producto> listarRegistrosActivoTrue() {
-		return repository.listarRegistrosActivoTrue();
+		return productoRepository.listarRegistrosActivoTrue();
 	}
 
 	@Override
 	public List<Producto> buscarPorNombre(String nombre_producto) {
-		return repository.buscarPorNombre(nombre_producto);
+		return productoRepository.buscarPorNombre(nombre_producto);
 	}
 
 	@Override
 	public List<Producto> buscarPorFiltrosGestionProducto(Long cod_prod, String nom_prod, String des_prod) {
-		return repository.buscarPorFiltrosGestionProducto(cod_prod, nom_prod, des_prod);
+		return productoRepository.buscarPorFiltrosGestionProducto(cod_prod, nom_prod, des_prod);
 	}
 
 }

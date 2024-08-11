@@ -1,25 +1,23 @@
 package com.proyect.data;
 
-import com.proyect.util.TipoDocumento;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record DTOProductoSave(@NotNull
-                              int codigo_producto,
+                              int cod_prod,
                               @NotBlank
-                              String nombre_producto,
+                              String nom_prod,
                               @NotBlank
-                              String descripcion_producto,
+                              String des_prod,
                               @NotNull
-                              double precio_producto,
+                              double pre_prod,
                               @NotNull
-                              double stock_producto,
-                              @NotNull
-                              @Valid
-                              TipoDocumento tipo_documento,
+                              double sto_prod,
                               @NotBlank
-                              String documento_producto,
+                              String tip_docu,
+                              @NotBlank
+                              String doc_prod,
                               @NotNull
                               @Valid
                               Long dataCatalogo) {

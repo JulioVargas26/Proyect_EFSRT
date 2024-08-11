@@ -1,8 +1,6 @@
 package com.proyect.controller;
 
-import com.proyect.entity.DataCatalogo;
 import com.proyect.entity.Producto;
-import com.proyect.repository.ProductoRepository;
 import com.proyect.service.DataCatalogoService;
 import com.proyect.service.ProductoService;
 import com.proyect.util.AppSettings;
@@ -29,8 +27,7 @@ public class ProductoController {
 	private final static String DEFAULT_MESSAGE_KEY = "MSG_OK";
 	private final static String DEFAULT_MESSAGE_ERROR_KEY = "MSG_ERROR";
 	private final static String DEFAULT_LIST_KEY = "LIST";
-    @Autowired
-    private ProductoRepository productoRepository;
+
 
 
 /*
@@ -57,7 +54,7 @@ public class ProductoController {
 
 	@GetMapping("/buscarPorFiltrosGestionProducto")
 	@ResponseBody
-	public Map<String, Object> listaComplejo(@RequestParam(required = false, defaultValue = DEFAULT_PARAM_VALUE) Long cod_prod,
+	public Map<String, Object> listaComplejo(@RequestParam Long cod_prod,
 											 @RequestParam String nom_prod,
 											 @RequestParam String des_prod) {
 		try {
@@ -77,76 +74,30 @@ public class ProductoController {
 
 	@PostMapping("/insertProducto")
 	@ResponseBody
-	public Map<?, ?> registrarProducto(Producto obj,DataCatalogo idDataCatalogo) {
+	public Map<?, ?> registrarProducto( Producto obj) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
-		/*if (ValidacionesUtil.esVacioInt(obj.getCodigo_producto())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo Codigo no puede ser CERO");
-			return map;
-		}
-		if (ValidacionesUtil.esVacio(obj.getNombre_producto())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo apellido paterno vacío");
-			return map;
-		}
-		if (ValidacionesUtil.esVacioDouble(obj.getStock_producto())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo apellido materno vacío");
-			return map;
-		}
-		if (ValidacionesUtil.esVacioDouble(obj.getPrecio_producto())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo salario aprox. vacío");
-			return map;
-		}
+		System.out.println("CODIGO PRODUCTO : " + obj.getCod_prod());
+		System.out.println("NOMBRE PRODUCTO : " + obj.getNom_prod());
+		System.out.println("DESCRIPCION PRODUCTO : " + obj.getDes_prod());
+		System.out.println("PRECIO PRODUCTO : " + obj.getPre_prod());
+		System.out.println("STOCK PRODUCTO : " + obj.getSto_prod());
+		System.out.println("TIPO DOCUMENTO : " + obj.getTip_docu());
+		System.out.println("DOCUMENTO PRODUCTO : " + obj.getDoc_prod());
+		System.out.println("DATA CATALOGO : " + obj.getDataCatalogo().getIdDataCatalogo());
+		System.out.println("REGISTROS : " + obj.getRegistros().getActivo() + " " + obj.getRegistros().getCreation_date() + " " + obj.getRegistros().getModification_date());
 
-		if (ValidacionesUtil.esVacio(String.valueOf(obj.getTipo_documento()))) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de documento");
-			return map;
-		}
-		TipoDocumento[] tipoDocumentos = TipoDocumento.values();
-		boolean coincidenciatipoDocumentos = false;
-		for (TipoDocumento item : tipoDocumentos) {
-			if (obj.getTipo_documento().equalsIgnoreCase(item.toString().substring(0, 3))) {
-				obj.setTipo_documento(item.toString());
-				coincidenciatipoDocumentos = true;
-			}
-		}
-		if (!coincidenciatipoDocumentos) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Valor de Tipo Documento no valido");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(obj.getDocumento_producto())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo número documento vacío");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(obj.getDescripcion_producto())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Campo descripcion vacío");
-			return map;
-		}
-
-		if (ValidacionesUtil.esVacio(obj.getTipo().getDescripcion())) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, "Escoge un tipo de producto");
-			return map;
-		}*/
-		DataCatalogo dataCatalogo = new DataCatalogo();
-		dataCatalogo.setIdDataCatalogo(idDataCatalogo.getIdDataCatalogo());
-
-		System.out.println("dataCatalogo: " + dataCatalogo.getDescripcion());
-		if (dataCatalogo == null) {
-			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_TIPO_ERROR);
-			return map;
-		}
-
-		obj.setDataCatalogo(dataCatalogo);
 
 		Producto objSalida = productoService.insertar(obj);
+		System.out.println("ID NUEVO PRODUCTO : " + objSalida.getId_prod());
 
 		if (objSalida == null) {
+			System.out.println("ERROR AL REGISTRAR PRODUCTO");
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {
 			List<Producto> list = new ArrayList<>();
-			list.add(productoService.buscarPorId(objSalida.getId_producto()).get());
-			System.out.print("ID NUEVO PRESTATARIO : " + obj.getId_producto());
+			list.add(productoService.buscarPorId(objSalida.getId_prod()).get());
+			System.out.print("ID NUEVO PRESTATARIO : " + obj.getId_prod());
 			map.put(DEFAULT_LIST_KEY, list);
 			map.put(DEFAULT_MESSAGE_KEY, MSG_REGISTRO_OK);
 		}
@@ -219,7 +170,7 @@ public class ProductoController {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {
 			List<Producto> list = new ArrayList<>();
-			list.add(productoService.buscarPorId(objSalida.getId_producto()).get());
+			list.add(productoService.buscarPorId(objSalida.getId_prod()).get());
 			map.put(DEFAULT_LIST_KEY, list);
 			map.put(DEFAULT_MESSAGE_KEY, MSG_ACTUALIZACION_OK);
 		}
@@ -239,7 +190,7 @@ public class ProductoController {
 			map.put(DEFAULT_MESSAGE_ERROR_KEY, MSG_ERROR_REGISTRO);
 		} else {
 			List<Producto> listProducto = new ArrayList<>();
-			listProducto.add(productoService.buscarPorId(objSalida.getId_producto()).get());
+			listProducto.add(productoService.buscarPorId(objSalida.getId_prod()).get());
 			map.put(DEFAULT_LIST_KEY, listProducto);
 		}
 		return map;

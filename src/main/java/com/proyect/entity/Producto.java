@@ -1,8 +1,9 @@
 package com.proyect.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.proyect.data.*;
-import com.proyect.util.*;
+import com.proyect.data.DTOProductoSave;
+import com.proyect.data.DTOProductoUpdate;
+import com.proyect.util.Registros;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,19 +13,19 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode(of = "id_producto")
+@EqualsAndHashCode(of = "id_prod")
 public class Producto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_producto;
-	private int codigo_producto;
-	private String nombre_producto;
-	private String descripcion_producto;
-	private double precio_producto;
-	private double stock_producto;
-	private String documento_producto;
-	private String tipo_documento;
+	private Long id_prod;
+	private int cod_prod;
+	private String nom_prod;
+	private double pre_prod;
+	private double sto_prod;
+	private String des_prod;
+	private String tip_docu;
+	private String doc_prod;
 
 	@JsonIgnoreProperties({ "hibernateLazyInitializer", "handler" })
 	@ManyToOne (fetch = FetchType.LAZY)
@@ -35,37 +36,37 @@ public class Producto {
 	private Registros registros = new Registros();
 
 	public Producto(DTOProductoSave dtoProductoSave , DataCatalogo dataCatalogo) {
-		this.codigo_producto = dtoProductoSave.codigo_producto();
-		this.nombre_producto = dtoProductoSave.nombre_producto();
-		this.descripcion_producto = dtoProductoSave.descripcion_producto();
-		this.precio_producto = dtoProductoSave.precio_producto();
-		this.stock_producto = dtoProductoSave.stock_producto();
-		this.tipo_documento = String.valueOf(dtoProductoSave.tipo_documento());
-		this.documento_producto = dtoProductoSave.documento_producto();
+		this.cod_prod = dtoProductoSave.cod_prod();
+		this.nom_prod = dtoProductoSave.nom_prod();
+		this.des_prod = dtoProductoSave.des_prod();
+		this.pre_prod = dtoProductoSave.pre_prod();
+		this.sto_prod = dtoProductoSave.sto_prod();
+		this.tip_docu = dtoProductoSave.tip_docu();
+		this.doc_prod = dtoProductoSave.doc_prod();
 		this.dataCatalogo = dataCatalogo;
 	}
 
 	public Producto updateData(DTOProductoUpdate dtoProductoUpdate) {
-		if (dtoProductoUpdate.codigo_producto() != 0) {
-			this.codigo_producto = dtoProductoUpdate.codigo_producto();
+		if (dtoProductoUpdate.cod_prod() != 0) {
+			this.cod_prod = dtoProductoUpdate.cod_prod();
 		}
-		if (dtoProductoUpdate.nombre_producto() != null) {
-			this.nombre_producto = dtoProductoUpdate.nombre_producto();
+		if (dtoProductoUpdate.nom_prod() != null) {
+			this.nom_prod = dtoProductoUpdate.nom_prod();
 		}
-		if (dtoProductoUpdate.descripcion_producto() != null) {
-			this.descripcion_producto = dtoProductoUpdate.descripcion_producto();
+		if (dtoProductoUpdate.des_prod() != null) {
+			this.des_prod = dtoProductoUpdate.des_prod();
 		}
-		if (dtoProductoUpdate.precio_producto() != 0.0) {
-			this.precio_producto = dtoProductoUpdate.precio_producto();
+		if (dtoProductoUpdate.pre_prod() != 0.0) {
+			this.pre_prod = dtoProductoUpdate.pre_prod();
 		}
-		if (dtoProductoUpdate.stock_producto() != 0.0) {
-			this.stock_producto = dtoProductoUpdate.stock_producto();
+		if (dtoProductoUpdate.sto_prod() != 0.0) {
+			this.sto_prod = dtoProductoUpdate.sto_prod();
 		}
-		if (dtoProductoUpdate.tipo_documento() != null) {
-			this.tipo_documento = String.valueOf(dtoProductoUpdate.tipo_documento());
+		if (dtoProductoUpdate.tip_docu() != null) {
+			this.tip_docu =dtoProductoUpdate.tip_docu();
 		}
-		if (dtoProductoUpdate.documento_producto() != null) {
-			this.documento_producto = dtoProductoUpdate.documento_producto();
+		if (dtoProductoUpdate.doc_prod() != null) {
+			this.doc_prod = dtoProductoUpdate.doc_prod();
 		}
 		if (dtoProductoUpdate.dataCatalogo() != null) {
 			this.dataCatalogo = dtoProductoUpdate.dataCatalogo();

@@ -24,9 +24,6 @@
 
     <title>Intranet</title>
     <style>
-        .navbar {
-
-        }
 
         .close {
             padding: 1rem;

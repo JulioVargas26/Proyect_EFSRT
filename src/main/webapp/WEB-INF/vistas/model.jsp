@@ -12,8 +12,7 @@
                 </h4>
             </div>
             <div class="modal-body" style="padding: 20px 10px;">
-                <form id="id_form_registra" accept-charset="UTF-8"
-                      class="form-horizontal" method="post">
+                <form id="id_form_registra" accept-charset="UTF-8" class="form-horizontal" method="post">
                     <div class="panel-group" id="steps_reg">
                         <!-- Step 1 -->
                         <div class="panel panel-default">
@@ -34,7 +33,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_reg_cod_prod" name="codigo_producto"
+                                                    id="id_reg_cod_prod" name="cod_prod"
                                                     autocomplete="off" placeholder="Ingrese el codigo">
                                             </div>
                                         </div>
@@ -45,7 +44,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_reg_nom_prod" name="nombre_producto"
+                                                    id="id_reg_nom_prod" name="nom_prod"
                                                     autocomplete="off" placeholder="Ingrese el nombre">
                                             </div>
                                         </div>
@@ -59,7 +58,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_reg_sto_prod" name="stock_producto" autocomplete="off"
+                                                    id="id_reg_sto_prod" name="sto_prod" autocomplete="off"
                                                     placeholder="Ingrese el Stock">
                                             </div>
                                         </div>
@@ -70,7 +69,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_reg_pre_prod" name="precio_producto" autocomplete="off"
+                                                    id="id_reg_pre_prod" name="pre_prod" autocomplete="off"
                                                     placeholder="Ingrese el Precio">
                                             </div>
                                         </div>
@@ -84,7 +83,7 @@
                                             <div class="input-group col-lg-8">
                                                 <span class="input-group-addon"><i
                                                         class="bi bi-box2-heart-fill"></i></span>
-                                                <select id="id_reg_tipo_documento" name="tipo_documento"
+                                                <select id="id_reg_tipo_documento" name="tip_docu"
                                                         class="form-control">
                                                     <option value="">[Seleccione]</option>
                                                 </select>
@@ -98,7 +97,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_reg_nro_doc_prod" name="documento_producto"
+                                                    id="id_reg_nro_doc_prod" name="doc_prod"
                                                     autocomplete="off" placeholder="Ingrese el Nro de Documento">
                                             </div>
                                         </div>
@@ -111,32 +110,36 @@
 													<span class="input-group-addon"><i
                                                             class="bi bi-boxes"></i></span><textarea
                                                 class="form-control input-sm" type="text"
-                                                id="id_reg_des_prod" name="descripcion_producto" autocomplete="off"
+                                                id="id_reg_des_prod" name="des_prod" autocomplete="off"
                                                 placeholder="Ingrese la Descripcion del Producto"></textarea>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_data_catalogo">Tipo
+                                        <label class="col-lg-3 control-label" for="id_reg_catalogo">Tipo
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_data_catalogo" name="data_catalogo" class="form-control">
+                                            <select id="id_reg_catalogo" name="catalogo" class="form-control">
                                                 <option value="">[Seleccione Tipo]</option>
+                                                <c:forEach items="${catalogos}" var="item">
+                                                    <option value="${item.idCatalogo}">${item.descripcion}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
 
                                     <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_catalogo">Sub
-                                            tipo </label>
+                                        <label class="col-lg-3 control-label" for="id_reg_data_catalogo">Sub Tipo
+                                            Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_catalogo" name="catalogo" class="form-control">
-                                                <option value="">[Seleccione Sub Tipo]</option>
+                                            <select id="id_reg_data_catalogo" name="dataCatalogo" class="form-control">
                                             </select>
                                         </div>
                                     </div>
+
+
 
                                     <div class="row">
                                         <div class="form-group col-md-12">
@@ -195,7 +198,7 @@
                                         <label class="col-lg-3 control-label" for="id_act_ID">ID</label>
                                         <div class="col-lg-8">
                                             <input class="form-control" id="id_act_ID"
-                                                   readonly="readonly" name="id_producto" type="text"
+                                                   readonly="readonly" name="id_prod" type="text"
                                                    maxlength="8"/>
                                         </div>
                                     </div>
@@ -208,7 +211,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_act_cod_prod" name="codigo_producto"
+                                                    id="id_act_cod_prod" name="cod_prod"
                                                     autocomplete="off" placeholder="Ingrese el codigo">
                                             </div>
                                         </div>
@@ -219,7 +222,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_act_nom_prod" name="nombre_producto"
+                                                    id="id_act_nom_prod" name="nom_prod"
                                                     autocomplete="off" placeholder="Ingrese el nombre">
                                             </div>
                                         </div>
@@ -233,7 +236,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_act_sto_prod" name="stock_producto" autocomplete="off"
+                                                    id="id_act_sto_prod" name="sto_prod" autocomplete="off"
                                                     placeholder="Ingrese el Stock">
                                             </div>
                                         </div>
@@ -244,7 +247,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_act_pre_prod" name="precio_producto" autocomplete="off"
+                                                    id="id_act_pre_prod" name="pre_prod" autocomplete="off"
                                                     placeholder="Ingrese el Precio">
                                             </div>
                                         </div>
@@ -258,7 +261,7 @@
                                             <div class="input-group col-lg-8">
                                                 <span class="input-group-addon"><i
                                                         class="bi bi-box2-heart-fill"></i></span>
-                                                <select id="id_act_tipo_documento" name="tipo_documento"
+                                                <select id="id_act_tipo_documento" name="tip_docu"
                                                         class="form-control">
                                                     <option value="">[Seleccione]</option>
                                                 </select>
@@ -272,7 +275,7 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
-                                                    id="id_act_nro_doc_prod" name="documento_producto"
+                                                    id="id_act_nro_doc_prod" name="doc_prod"
                                                     autocomplete="off" placeholder="Ingrese el Nro de Documento">
                                             </div>
                                         </div>
@@ -285,29 +288,28 @@
 													<span class="input-group-addon"><i
                                                             class="bi bi-boxes"></i></span><textarea
                                                 class="form-control input-sm" type="text"
-                                                id="id_act_des_prod" name="descripcion_producto" autocomplete="off"
+                                                id="id_act_des_prod" name="des_prod" autocomplete="off"
                                                 placeholder="Ingrese la Descripcion del Producto"></textarea>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                   <div class="form-group">
                                         <label class="col-lg-3 control-label" for="id_act_data_catalogo">Tipo
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_data_catalogo" name="data_catalogo" class="form-control">
+                                            <select id="id_act_data_catalogo" name="idDataCatalogo" class="form-control">
                                                 <option value="">[Seleccione Tipo]</option>
                                             </select>
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
+                                   <div class="form-group">
                                         <label class="col-lg-3 control-label" for="id_act_catalogo">Sub
                                             tipo </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_catalogo" name="catalogo" class="form-control">
-                                                <option value="">[Seleccione Sub Tipo]</option>
+                                            <select id="id_act_catalogo" name="dataCatalogo.idCatalogo" class="form-control">
                                             </select>
                                         </div>
                                     </div>
