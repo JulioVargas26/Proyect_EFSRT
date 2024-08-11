@@ -12,3 +12,4 @@ public record DTOCatalogoList(Long idCatalogo,
         );
     }
 }
+

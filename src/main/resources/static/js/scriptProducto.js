@@ -1,3 +1,5 @@
+let idDataCatalogo = -1;
+
 <!-- Agregar aqu� -->
 (() => {
     'use strict'
@@ -60,56 +62,60 @@ $(document).ready(function () {
 
     $.getJSON("listarPorCatalogo", {}, function (data) {
         $.each(data, function (index, item) {
-            $("#id_act_data_catalogo").append(
+            $("#id_reg_catalogo").append(
                 $('<option>', {
-                    value: index,
-                    text: item
+                    value: item.idCatalogo,
+                    text: item.descripcion
                 }));
-            $("#id_reg_data_catalogo").append(
+            $("#id_act_catalogo").append(
                 $('<option>', {
-                    value: index,
-                    text: item
+                    value: item.idCatalogo,
+                    text: item.descripcion
                 }));
         });
     });
 
-    $("#id_act_data_catalogo").change(function () {
+    $("#id_act_catalogo").change(function () {
         var catalogoId = $(this).val();
-        $("#id_act_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
+        $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
         $.ajax({
             url: "/listarPorDataCatalogo/" + catalogoId,
             method: "GET",
             success: function (data) {
                 $.each(data, function (index, item) {
-                    $("#id_act_catalogo").append(
+                    $("#id_act_data_catalogo").append(
                         $('<option>', {
-                            value: index,
-                            text: item
+                            value: item.idDataCatalogo,
+                            text: item.descripcion
                         }));
                 });
+
+                $("#id_act_data_catalogo").val(idDataCatalogo);
             }
         });
 
     });
-    $("#id_reg_data_catalogo").change(function () {
+
+    /*$("#id_reg_catalogo").change(function () {
         var catalogoId = $(this).val();
-        $("#id_reg_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
+        $("#id_reg_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
         $.ajax({
             url: "/listarPorDataCatalogo/" + catalogoId,
             method: "GET",
             success: function (data) {
                 $.each(data, function (index, item) {
-                    $("#id_reg_catalogo").append(
+                    $("#id_reg_data_catalogo").append(
                         $('<option>', {
-                            value: index,
-                            text: item
+                            value: item.idDataCatalogo,
+                            text: item.descripcion
                         }));
                 });
+                $("#id_reg_data_catalogo").val(idDataCatalogo);
             }
         });
 
     });
-
+*/
     $("#id_btn_filtrar").click(function () {
         buscarPorFiltrosGestionProductos();
     });
@@ -125,8 +131,24 @@ $(document).ready(function () {
         }
     });
 
-
 });
+
+//asignar evento change al select con ID "id_reg_catalogo"
+$(document).on("change","#id_reg_catalogo",function(){
+    //variable
+    let cod;
+    cod=$(this).val();
+    //limpiar combo de tipo
+    $("#id_reg_data_catalogo").empty().append("<option>[Seleccione Tipo de Medicamento]</option>")
+    $.get("/listarPorDataCatalogo/"+cod,function(response){
+        //bucle
+        $.each(response,function(index,item){
+            $("#id_reg_data_catalogo").append("<option value='"+item.idDataCatalogo+"'>"+item.descripcion+"</option>");
+        })
+        $("#id_reg_data_catalogo").val(idDataCatalogo);
+
+    })
+})
 
 function limpiarFormularioRegistro() {
     $("#id_reg_codigo").val("")
@@ -136,7 +158,7 @@ function limpiarFormularioRegistro() {
     $("#id_reg_stock").val("")
     $("#id_reg_nro_documento").val("")
     $("#id_reg_tipo_documento").val("")
-    $("#id_reg_tipo").val("")
+    // $("#id_reg_tipo").val("")
 }
 
 /*
@@ -314,13 +336,13 @@ function listarProductos() {
 function buscarPorFiltrosGestionProductos() {
 
     var cod_nom = $("#id_txt_codigo").val();
-    var cod_pro = BigInt(cod_nom)
-    var nom_pro = $("#id_txt_nombre").val();
-    var des_pro = $("#id_txt_descripcion").val();
+    var cod_prod = BigInt(cod_nom)
+    var nom_prod = $("#id_txt_nombre").val();
+    var des_prod = $("#id_txt_descripcion").val();
     $.getJSON("buscarPorFiltrosGestionProducto", {
-        "cod_prod": cod_pro,
-        "nom_prod": nom_pro,
-        "des_prod": des_pro
+        "cod_prod": cod_prod,
+        "nom_prod": nom_prod,
+        "des_prod": des_prod
     }, function (data) {
         if (data.LIST == null) {
             const Toast = Swal.mixin({
@@ -359,33 +381,33 @@ function agregarGrilla(lista) {
                 lengthChange: false,
                 columns: [
                     {
-                        data: "id_producto"
+                        data: "id_prod"
                     },
                     {
-                        data: "codigo_producto"
+                        data: "cod_prod"
                     },
                     {
-                        data: "nombre_producto"
+                        data: "nom_prod"
                     },
                     {
-                        data: "descripcion_producto"
+                        data: "des_prod"
                     },
                     {
                         data: function (row) {
-                            if (row.stock_producto != '' && row.precio_producto != '') {
-                                total = row.precio_producto * row.stock_producto;
+                            if (row.sto_prod != '' && row.pre_prod != '') {
+                                total = row.pre_prod * row.sto_prod;
                                 precio = total.toFixed(2);
                             }
                             return precio // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
                         }
                     },
                     {
-                        data: "stock_producto"
+                        data: "sto_prod"
                     },
                     {
                         data: function (row) {
-                            if (row.documento_producto != '') {
-                                doc = row.tipo_documento.toString().substring(0, 3) + " - " + row.documento_producto;
+                            if (row.doc_prod != '') {
+                                doc = row.tip_docu.toString().substring(0, 3) + " - " + row.doc_prod;
                             }
                             return doc // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
                         }
@@ -393,7 +415,7 @@ function agregarGrilla(lista) {
                     {
                         data: function (row) {
                             if (row.dataCatalogo.descripcion != "") {
-                                sub = row.dataCatalogo.catalogo.descripcion + " " + row.dataCatalogo.descripcion;
+                                sub = row.dataCatalogo.catalogo.descripcion.toString() + " " + row.dataCatalogo.descripcion;
                             }
                             return sub // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
                         }
@@ -403,21 +425,21 @@ function agregarGrilla(lista) {
                         data: function (row, type, val,
                                         meta) {
                             var salida = '<button type="button" style="width: 90px" class="btn btn-info btn-sm" onclick="editar(\''
-                                + row.id_producto
+                                + row.id_prod
                                 + '\',\''
-                                + row.codigo_producto
+                                + row.cod_prod
                                 + '\',\''
-                                + row.nombre_producto
+                                + row.nom_prod
                                 + '\',\''
-                                + row.descripcion_producto
+                                + row.des_prod
                                 + '\',\''
-                                + row.precio_producto
+                                + row.pre_prod
                                 + '\',\''
-                                + row.stock_producto
+                                + row.sto_prod
                                 + '\',\''
-                                + row.tipo_documento
+                                + row.tip_docu
                                 + '\',\''
-                                + row.documento_producto
+                                + row.doc_prod
                                 + '\',\''
                                 + row.dataCatalogo.idDataCatalogo
                                 + '\')">Editar</button>';
@@ -429,7 +451,7 @@ function agregarGrilla(lista) {
                         data: function (row, type, val,
                                         meta) {
                             var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEliminar(\''
-                                + row.id_producto
+                                + row.id_prod
                                 + '\')">'
                                 + (row.registros.activo == 1 ? 'Activo'
                                     : 'Inactivo')
@@ -449,7 +471,7 @@ function editar(id, cod_prod, nom_prod, des_prod, pre_prod, sto_prod,
     $('#id_act_nom_prod').val(nom_prod);
     $('#id_act_pre_prod').val(pre_prod);
     $('#id_act_sto_prod').val(sto_prod);
-    $('#id_act_tipo_documento').val(tipo_documento);
+    $('#id_act_tipo_documento').val(tip_doc);
     $('#id_act_nro_doc_prod').val(nro_doc_prod);
     $('#id_act_des_prod').val(des_prod);
     $('#id_act_data_catalogo').val(idDataCatalogo);
