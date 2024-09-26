@@ -22,8 +22,10 @@ let idDataCatalogo = -1;
 })()
 
 $(document).ready(function () {
+
     listarProductos();
     buscarPorFiltrosGestionProductos();
+
     // Realiza la solicitud para obtener la lista de nacionalidades
     $.getJSON("listaTipoDocumento", {})
         .done(function (data) {
@@ -75,6 +77,26 @@ $(document).ready(function () {
         });
     });
 
+    $("#id_reg_catalogo").change(function () {
+        var catalogoId = $(this).val();
+        $("#id_reg_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
+        $.ajax({
+            url: "/listarPorDataCatalogo/" + catalogoId,
+            method: "GET",
+            success: function (data) {
+                $.each(data, function (index, item) {
+                    $("#id_reg_data_catalogo").append(
+                        $('<option>', {
+                            value: item.idDataCatalogo,
+                            text: item.descripcion
+                        }));
+                });
+
+                $("#id_reg_data_catalogo").val(idDataCatalogo);
+            }
+        });
+
+    });
     $("#id_act_catalogo").change(function () {
         var catalogoId = $(this).val();
         $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
@@ -96,31 +118,11 @@ $(document).ready(function () {
 
     });
 
-    /*$("#id_reg_catalogo").change(function () {
-        var catalogoId = $(this).val();
-        $("#id_reg_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
-        $.ajax({
-            url: "/listarPorDataCatalogo/" + catalogoId,
-            method: "GET",
-            success: function (data) {
-                $.each(data, function (index, item) {
-                    $("#id_reg_data_catalogo").append(
-                        $('<option>', {
-                            value: item.idDataCatalogo,
-                            text: item.descripcion
-                        }));
-                });
-                $("#id_reg_data_catalogo").val(idDataCatalogo);
-            }
-        });
-
-    });
-*/
     $("#id_btn_filtrar").click(function () {
         buscarPorFiltrosGestionProductos();
     });
 
-    $("#id_txt_filtro").on('keypress', function (e) {
+    /*$("#id_txt_filtro").on('keypress', function (e) {
         if (e.which == 13) {
             var fil = $("#id_txt_filtro").val();
             $.getJSON("buscarProductoPorNombre", {
@@ -129,17 +131,17 @@ $(document).ready(function () {
                 agregarGrilla(lista);
             });
         }
-    });
+    });*/
 
 });
 
-//asignar evento change al select con ID "id_reg_catalogo"
+/*//asignar evento change al select con ID "id_reg_catalogo"
 $(document).on("change","#id_reg_catalogo",function(){
     //variable
     let cod;
     cod=$(this).val();
     //limpiar combo de tipo
-    $("#id_reg_data_catalogo").empty().append("<option>[Seleccione Tipo de Medicamento]</option>")
+    $("#id_reg_data_catalogo").empty().append("<option>[Seleccione Tipo de Producto]</option>")
     $.get("/listarPorDataCatalogo/"+cod,function(response){
         //bucle
         $.each(response,function(index,item){
@@ -148,7 +150,7 @@ $(document).on("change","#id_reg_catalogo",function(){
         $("#id_reg_data_catalogo").val(idDataCatalogo);
 
     })
-})
+})*/
 
 function limpiarFormularioRegistro() {
     $("#id_reg_codigo").val("")
@@ -158,32 +160,7 @@ function limpiarFormularioRegistro() {
     $("#id_reg_stock").val("")
     $("#id_reg_nro_documento").val("")
     $("#id_reg_tipo_documento").val("")
-    // $("#id_reg_tipo").val("")
 }
-
-/*
-$('#saveButton').click(function() {
-    var brandId = $('#brandSelect').val();
-    var categoryId = $('#categorySelect').val();
-    var productName = $('#productName').val();
-
-    var product = {
-        name: productName,
-        brand: { id: brandId },
-        category: { id: categoryId }
-    };
-
-    $.ajax({
-        url: '/products/save',
-        method: 'POST',
-        data: JSON.stringify(product),
-        contentType: 'application/json',
-        success: function(data) {
-            alert('Product saved successfully!');
-        }
-    });
-});
-*/
 
 $("#id_btn_registra").click(function () {
 //
@@ -325,21 +302,35 @@ function listarProductos() {
                 });
                 Toast.fire({
                     icon: "info",
-                    title: data.MSG
+                    title: data.MSG_EMPTY
                 });
             } else {
                 agregarGrilla(data);
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: "top-end",
+                    showConfirmButton: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer;
+                        toast.onmouseleave = Swal.resumeTimer;
+                    }
+                });
+                Toast.fire({
+                    icon: "success",
+                    title: "Se encontraron coincidencias"
+                });
             }
         });
 }
 
 function buscarPorFiltrosGestionProductos() {
-
     var cod_nom = $("#id_txt_codigo").val();
     var cod_prod = BigInt(cod_nom)
     var nom_prod = $("#id_txt_nombre").val();
     var des_prod = $("#id_txt_descripcion").val();
-    $.getJSON("buscarPorFiltrosGestionProducto", {
+    $.getJSON("buscarPorGestionProducto", {
         "cod_prod": cod_prod,
         "nom_prod": nom_prod,
         "des_prod": des_prod
@@ -358,10 +349,25 @@ function buscarPorFiltrosGestionProductos() {
             });
             Toast.fire({
                 icon: "info",
-                title: data.MSG
+                title: data.MSG_EMPTY
             });
         } else {
             agregarGrilla(data.LIST);
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "Se encontraron coincidencias"
+            });
         }
     });
 }
@@ -441,6 +447,8 @@ function agregarGrilla(lista) {
                                 + '\',\''
                                 + row.doc_prod
                                 + '\',\''
+                                + row.dataCatalogo.catalogo.idCatalogo
+                                + '\',\''
                                 + row.dataCatalogo.idDataCatalogo
                                 + '\')">Editar</button>';
                             return salida;
@@ -465,17 +473,27 @@ function agregarGrilla(lista) {
 }
 
 function editar(id, cod_prod, nom_prod, des_prod, pre_prod, sto_prod,
-                tipo_documento, nro_doc_prod, idDataCatalogo) {
+                tipo_documento, nro_doc_prod, dataCatalogo) {
     $('#id_act_ID').val(id);
     $('#id_act_cod_prod').val(cod_prod);
     $('#id_act_nom_prod').val(nom_prod);
     $('#id_act_pre_prod').val(pre_prod);
     $('#id_act_sto_prod').val(sto_prod);
-    $('#id_act_tipo_documento').val(tip_doc);
+    $('#id_act_tipo_documento').val(tipo_documento);
     $('#id_act_nro_doc_prod').val(nro_doc_prod);
     $('#id_act_des_prod').val(des_prod);
-    $('#id_act_data_catalogo').val(idDataCatalogo);
+
+    $('#id_act_catalogo').val(dataCatalogo);
+    idDataCatalogo = dataCatalogo;
+    $('#id_act_catalogo').trigger("change");
     $('#id_div_modal_actualiza').modal("show");
+/*
+    //$("#idTipo").val(response.tipo.codigo);
+    $("#idLaboratorio").val(response.tipo.laboratorio.codigo);
+
+    codTipo=response.tipo.codigo;
+    $("#idLaboratorio").trigger("change");*/
+
 }
 
 function accionEliminar(id_producto) {
