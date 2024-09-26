@@ -421,18 +421,18 @@ public class FunctionUtil {
 			return "Activo";
 	}
 
-	public static String stringToLikeAll(String value) {
+	/*public static String stringToLikeAll(String value) {
 		return "%" + value + "%";
 
-	}
+	}*/
 
 	public static int intToLikeAll(int value) {
 		return value ;
 
 	}
 
-	public static Long longToLikeAll(Long value) {
+	/*public static Long longToLikeAll(Long value) {
 		return value ;
 
-	}
+	}*/
 }

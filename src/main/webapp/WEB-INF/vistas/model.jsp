@@ -139,8 +139,6 @@
                                         </div>
                                     </div>
 
-
-
                                     <div class="row">
                                         <div class="form-group col-md-12">
                                             <div class="col-md-12" align="center">
@@ -293,23 +291,26 @@
                                         </div>
                                     </div>
 
-                                   <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_act_data_catalogo">Tipo
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label" for="id_act_catalogo">Tipo
                                             Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_data_catalogo" name="idDataCatalogo" class="form-control">
+                                            <select id="id_act_catalogo" name="catalogo" class="form-control">
                                                 <option value="">[Seleccione Tipo]</option>
+                                                <c:forEach items="${catalogos}" var="item">
+                                                    <option value="${item.idCatalogo}">${item.descripcion}</option>
+                                                </c:forEach>
                                             </select>
                                         </div>
                                     </div>
 
-                                   <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_act_catalogo">Sub
-                                            tipo </label>
+                                    <div class="form-group">
+                                        <label class="col-lg-3 control-label" for="id_act_data_catalogo">Sub Tipo
+                                            Producto </label>
                                         <div class="input-group col-lg-8">
                                             <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_catalogo" name="dataCatalogo.idCatalogo" class="form-control">
+                                            <select id="id_act_data_catalogo" name="dataCatalogo" class="form-control">
                                             </select>
                                         </div>
                                     </div>

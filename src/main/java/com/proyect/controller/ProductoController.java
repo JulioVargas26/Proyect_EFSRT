@@ -10,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
-
+/*
 import static com.proyect.util.FunctionUtil.longToLikeAll;
-import static com.proyect.util.FunctionUtil.stringToLikeAll;
+import static com.proyect.util.FunctionUtil.stringToLikeAll;*/
 import static com.proyect.util.MessagesUtil.*;
 
 @Controller
@@ -25,6 +25,7 @@ public class ProductoController {
 
 	private final static String DEFAULT_PARAM_VALUE = "-1";
 	private final static String DEFAULT_MESSAGE_KEY = "MSG_OK";
+	private final static String DEFAULT_MESSAGE_EMPTY_KEY = "MSG_EMPTY";
 	private final static String DEFAULT_MESSAGE_ERROR_KEY = "MSG_ERROR";
 	private final static String DEFAULT_LIST_KEY = "LIST";
 
@@ -46,30 +47,47 @@ public class ProductoController {
 
 
 
-	@GetMapping("/buscarProductoPorNombre")
+	/*@GetMapping("/buscarProductoPorNombre")
 	@ResponseBody
 	public List<Producto> consultaProducto(@RequestParam String filtro) {
 		return productoService.buscarPorNombre(FunctionUtil.stringToLikeAll(filtro));
-	}
+	}*/
 
-	@GetMapping("/buscarPorFiltrosGestionProducto")
+	/*@GetMapping("/consultaSalaPorParametros")
 	@ResponseBody
-	public Map<String, Object> listaComplejo(@RequestParam Long cod_prod,
-											 @RequestParam String nom_prod,
-											 @RequestParam String des_prod) {
+	public List<Sala> listaConsultaSala(
+			@RequestParam(name = "numero" , required = false, defaultValue = "") String numero,
+			@RequestParam(name = "piso" , required = false, defaultValue = "0") int piso,
+			@RequestParam(name = "recursos" , required = false, defaultValue = "") String recursos,
+			@RequestParam(name = "estado" , required = true, defaultValue = "1") int estado,
+			@RequestParam(name = "idTipoSala" , required = false, defaultValue = "-1") int idTipoSala,
+			@RequestParam(name = "idSede" , required = false, defaultValue = "-1") int idSede){
+
+		List<Sala> lstSalida = service.listaConsultaDinamica("%"+ numero + "%", piso, "%"+ recursos + "%",estado, idTipoSala, idSede);
+
+		return lstSalida;
+	}*/
+
+	@GetMapping("/buscarPorGestionProducto")
+	@ResponseBody
+	public Map<String, Object> listaComplejo(
+			@RequestParam(name = "cod_prod" , required = false, defaultValue = "0") Long cod_prod,
+			@RequestParam(name = "nom_prod" , required = false, defaultValue = "") String nom_prod,
+			@RequestParam(name = "des_prod" , required = false, defaultValue = "") String des_prod) {
 		try {
 			List<Producto> productos = productoService.buscarPorFiltrosGestionProducto(
-					longToLikeAll(cod_prod),
-					stringToLikeAll(nom_prod),
-					stringToLikeAll(des_prod));
+					cod_prod,
+					"%" + nom_prod + "%",
+					"%" + des_prod + "%");
 
 			return productos.isEmpty()
-					? Collections.singletonMap(DEFAULT_MESSAGE_KEY, MESSAGE_LIST_EMPTY)
+					? Collections.singletonMap(DEFAULT_MESSAGE_EMPTY_KEY, MESSAGE_LIST_EMPTY)
 					: Collections.singletonMap(DEFAULT_LIST_KEY, productos);
 		} catch (Exception e) {
 			// log.error("Error al procesar la solicitud: " + e.getMessage(), e);
 			return Collections.singletonMap(DEFAULT_MESSAGE_KEY, MSG_ERROR_DEFAULT);
 		}
+
 	}
 
 	@PostMapping("/insertProducto")

@@ -2,7 +2,7 @@ package com.proyect.util;
 
 public class MessagesUtil {
     public final static String MESSAGE_LIST_EMPTY = "!No se encontraron resultados!";
-    public static final String MSG_ERROR_DEFAULT = "!Ocurri\u00F3 algo inesperado!";
+    public static final String MSG_ERROR_DEFAULT = "Ocurrió un error al procesar la solicitud.";
 
     public static final String MSG_REGISTRO_OK = "!Tu registro fue exitoso!";
     public static final String MSG_ERROR_REGISTRO = "Error de registro ";

@@ -1,4 +1,4 @@
-package com.proyect.entity;
+	package com.proyect.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.proyect.data.DTOProductoSave;
