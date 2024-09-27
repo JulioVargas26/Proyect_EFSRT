@@ -97,7 +97,7 @@ $(document).ready(function () {
         });
 
     });
-    $("#id_act_catalogo").change(function () {
+    /*$("#id_act_catalogo").change(function () {
         var catalogoId = $(this).val();
         $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
         $.ajax({
@@ -116,8 +116,7 @@ $(document).ready(function () {
             }
         });
 
-    });
-
+    });*/
     $("#id_btn_filtrar").click(function () {
         buscarPorFiltrosGestionProductos();
     });
@@ -135,7 +134,8 @@ $(document).ready(function () {
 
 });
 
-/*//asignar evento change al select con ID "id_reg_catalogo"
+/*
+//asignar evento change al select con ID "id_reg_catalogo"
 $(document).on("change","#id_reg_catalogo",function(){
     //variable
     let cod;
@@ -150,16 +150,44 @@ $(document).on("change","#id_reg_catalogo",function(){
         $("#id_reg_data_catalogo").val(idDataCatalogo);
 
     })
-})*/
+})
+*/
+
+//asignar evento change al select con ID "id_act_catalogo"
+$(document).on("change","#id_act_catalogo",function(){
+    //variable
+    let cod;
+    cod=$(this).val();
+    //limpiar combo de tipo
+    $("#id_act_data_catalogo").empty().append("<option>[Seleccione Tipo de Producto]</option>")
+    $.get("/listarPorDataCatalogo/"+cod,function(response){
+        //bucle
+        $.each(response,function(index,item){
+            $("#id_act_data_catalogo").append("<option value='"+item.idDataCatalogo+"'>"+item.descripcion+"</option>");
+        })
+        $("#id_act_data_catalogo").val(idDataCatalogo);
+
+    })
+})
 
 function limpiarFormularioRegistro() {
-    $("#id_reg_codigo").val("")
-    $("#id_reg_nombre").val("")
-    $("#id_reg_descripcion").val("")
-    $("#id_reg_precio").val("")
-    $("#id_reg_stock").val("")
-    $("#id_reg_nro_documento").val("")
+    $("#id_reg_cod_prod").val("")
+    $("#id_reg_nom_prod").val("")
+    $("#id_reg_sto_prod").val("")
+    $("#id_reg_pre_prod").val("")
     $("#id_reg_tipo_documento").val("")
+    $("#id_reg_nro_doc_prod").val("")
+    $("#id_reg_des_prod").val("")
+    $("#id_reg_catalogo").val("")
+    $("#id_reg_data_catalogo").val("")
+
+ /*   //resetear formulario
+    $("#idRegistra").trigger("reset");
+    //asignar el valor de "0" a la caja con ID "idCodigo"
+    $("#idCodigo").val(0);
+    //resetear validación
+    $("#idRegistra").data("bootstrapValidator").resetForm(true);
+*/
 }
 
 $("#id_btn_registra").click(function () {
@@ -472,9 +500,9 @@ function agregarGrilla(lista) {
 
 }
 
-function editar(id, cod_prod, nom_prod, des_prod, pre_prod, sto_prod,
-                tipo_documento, nro_doc_prod, dataCatalogo) {
-    $('#id_act_ID').val(id);
+function editar(id_prod, cod_prod, nom_prod, des_prod, pre_prod, sto_prod,
+                tipo_documento, nro_doc_prod, idCatalogo) {
+    $('#id_act_ID').val(id_prod);
     $('#id_act_cod_prod').val(cod_prod);
     $('#id_act_nom_prod').val(nom_prod);
     $('#id_act_pre_prod').val(pre_prod);
@@ -482,11 +510,11 @@ function editar(id, cod_prod, nom_prod, des_prod, pre_prod, sto_prod,
     $('#id_act_tipo_documento').val(tipo_documento);
     $('#id_act_nro_doc_prod').val(nro_doc_prod);
     $('#id_act_des_prod').val(des_prod);
-
-    $('#id_act_catalogo').val(dataCatalogo);
-    idDataCatalogo = dataCatalogo;
+    $('#id_act_catalogo').val(idCatalogo);
+    idDataCatalogo = idCatalogo;
     $('#id_act_catalogo').trigger("change");
     $('#id_div_modal_actualiza').modal("show");
+
 /*
     //$("#idTipo").val(response.tipo.codigo);
     $("#idLaboratorio").val(response.tipo.laboratorio.codigo);

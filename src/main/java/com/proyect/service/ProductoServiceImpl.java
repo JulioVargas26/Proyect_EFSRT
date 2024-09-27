@@ -50,10 +50,4 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoRepository.buscarPorFiltrosGestionProducto(cod_prod, nom_prod, des_prod);
 	}
 
-	/*@Override
-	public List<Sala> listaConsultaDinamica(String numero, int piso, String recursos,int estado, int idTipoSala, int idSede) {
-		return repository.listaConsultaDinamica(numero, piso, recursos, estado, idTipoSala, idSede);
-	}*/
-
-
 }
