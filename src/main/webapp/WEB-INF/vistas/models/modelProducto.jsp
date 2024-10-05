@@ -26,7 +26,7 @@
                                 <div class="panel-body">
 
                                     <div class="row form-group ">
-                                        <div class="col-lg-6">
+                                        <div class="col-sm-6">
                                             <label class="col-lg-4 control-label"
                                                    for="id_reg_cod_prod">Codigo </label>
                                             <div class="input-group col-lg-8 ">
@@ -37,7 +37,18 @@
                                                     autocomplete="off" placeholder="Ingrese el codigo">
                                             </div>
                                         </div>
-                                        <div class=" col-lg-6">
+                                        <div class="col-sm-6  ">
+                                            <label class="col-lg-4 control-label"
+                                               for="id_reg_sto_prod">Cantidad </label>
+                                            <div class="input-group col-lg-8 ">
+														<span class="input-group-addon"><i
+                                                                class="bi bi-boxes"></i></span><input
+                                                class="form-control input-sm" type="text"
+                                                id="id_reg_sto_prod" name="sto_prod" autocomplete="off"
+                                                placeholder="Ingrese el Stock">
+                                        </div>
+                                        </div>
+                                        <%--<div class=" col-lg-6">
                                             <label class="col-lg-4 control-label"
                                                    for="id_reg_nom_prod">Nombre </label>
                                             <div class="input-group col-lg-8 ">
@@ -47,19 +58,22 @@
                                                     id="id_reg_nom_prod" name="nom_prod"
                                                     autocomplete="off" placeholder="Ingrese el nombre">
                                             </div>
-                                        </div>
+                                        </div>--%>
                                     </div>
 
                                     <div class="row form-group ">
-                                        <div class="col-sm-6  ">
-                                            <label class="col-lg-4 control-label"
-                                                   for="id_reg_sto_prod">Cantidad </label>
-                                            <div class="input-group col-lg-8 ">
-														<span class="input-group-addon"><i
-                                                                class="bi bi-boxes"></i></span><input
-                                                    class="form-control input-sm" type="text"
-                                                    id="id_reg_sto_prod" name="sto_prod" autocomplete="off"
-                                                    placeholder="Ingrese el Stock">
+
+                                        <div class="col-sm-6">
+                                            <label class="col-lg-4 control-label" for="id_reg_tipo_moneda">Tipo
+                                                Moneda </label>
+                                            <div class="input-group col-lg-8">
+                                                <span class="input-group-addon"><i
+                                                        class="bi bi-box2-heart-fill"></i></span>
+                                                <select id="id_reg_tipo_moneda" name="tip_mone"
+                                                        class="form-control">
+                                                    <option value="">[Seleccione]</option>
+                                                </select>
+
                                             </div>
                                         </div>
                                         <div class="col-sm-6  ">
@@ -76,8 +90,7 @@
                                     </div>
 
                                     <div class="row form-group ">
-                                        <div class="col-lg-6">
-
+                                        <div class="col-sm-6">
                                             <label class="col-lg-4 control-label" for="id_reg_tipo_documento">Tipo
                                                 Documento </label>
                                             <div class="input-group col-lg-8">
@@ -90,7 +103,7 @@
 
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-sm-6">
                                             <label class="col-lg-4 control-label"
                                                    for="id_reg_nro_doc_prod">Nro. Documento </label>
                                             <div class="input-group col-lg-8 ">
@@ -104,9 +117,9 @@
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="col-lg-3 control-label"
-                                               for="id_reg_des_prod">Descripcion Producto </label>
-                                        <div class="input-group col-lg-8 ">
+                                        <label class="col-lg-2 control-label"
+                                               for="id_reg_des_prod">Descripcion  </label>
+                                        <div class="input-group col-lg-9 ">
 													<span class="input-group-addon"><i
                                                             class="bi bi-boxes"></i></span><textarea
                                                 class="form-control input-sm" type="text"
@@ -115,27 +128,27 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_catalogo">Tipo
-                                            Producto </label>
-                                        <div class="input-group col-lg-8">
-                                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_catalogo" name="catalogo" class="form-control">
-                                                <option value="">[Seleccione Tipo]</option>
-                                                <c:forEach items="${catalogos}" var="item">
-                                                    <option value="${item.idCatalogo}">${item.descripcion}</option>
-                                                </c:forEach>
-                                            </select>
+                                    <div class="row form-group">
+                                        <div class="col-sm-6">
+                                            <label class="col-lg-4 control-label" for="id_reg_catalogo">Tipo
+                                                 </label>
+                                            <div class="input-group col-lg-8">
+                                                <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                                                <select id="id_reg_catalogo" name="catalogo" class="form-control">
+                                                    <option value="">[Seleccione Tipo]</option>
+                                                    <c:forEach items="${catalogos}" var="item">
+                                                        <option value="${item.idCatalogo}">${item.descripcion}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_reg_data_catalogo">Sub Tipo
-                                            Producto </label>
-                                        <div class="input-group col-lg-8">
-                                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_reg_data_catalogo" name="dataCatalogo" class="form-control">
-                                            </select>
+                                        <div class="col-sm-6">
+                                            <label class="col-lg-4 control-label" for="id_reg_data_catalogo">Sub Tipo </label>
+                                            <div class="input-group col-lg-8">
+                                                <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                                                <select id="id_reg_data_catalogo" name="dataCatalogo" class="form-control">
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -152,10 +165,8 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
@@ -202,7 +213,7 @@
                                     </div>
 
                                     <div class="row form-group ">
-                                        <div class="col-lg-6">
+                                        <div class="col-sm-6">
                                             <label class="col-lg-4 control-label"
                                                    for="id_act_cod_prod">Codigo </label>
                                             <div class="input-group col-lg-8 ">
@@ -213,20 +224,6 @@
                                                     autocomplete="off" placeholder="Ingrese el codigo">
                                             </div>
                                         </div>
-                                        <div class=" col-lg-6">
-                                            <label class="col-lg-4 control-label"
-                                                   for="id_act_nom_prod">Nombre </label>
-                                            <div class="input-group col-lg-8 ">
-														<span class="input-group-addon"><i
-                                                                class="bi bi-boxes"></i></span><input
-                                                    class="form-control input-sm" type="text"
-                                                    id="id_act_nom_prod" name="nom_prod"
-                                                    autocomplete="off" placeholder="Ingrese el nombre">
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="row form-group ">
                                         <div class="col-sm-6  ">
                                             <label class="col-lg-4 control-label"
                                                    for="id_act_sto_prod">Cantidad </label>
@@ -235,7 +232,22 @@
                                                                 class="bi bi-boxes"></i></span><input
                                                     class="form-control input-sm" type="text"
                                                     id="id_act_sto_prod" name="sto_prod" autocomplete="off"
-                                                    placeholder="Ingrese el Stock">
+                                                    placeholder="Ingrese la cantidad">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="row form-group ">
+                                        <div class="col-sm-6">
+                                            <label class="col-lg-4 control-label" for="id_act_tipo_moneda">Tipo
+                                                Moneda </label>
+                                            <div class="input-group col-lg-8">
+                                                <span class="input-group-addon"><i
+                                                        class="bi bi-box2-heart-fill"></i></span>
+                                                <select id="id_act_tipo_moneda" name="tip_mone"
+                                                        class="form-control">
+                                                    <option value="">[Seleccione]</option>
+                                                </select>
                                             </div>
                                         </div>
                                         <div class="col-sm-6  ">
@@ -252,8 +264,7 @@
                                     </div>
 
                                     <div class="row form-group ">
-                                        <div class="col-lg-6">
-
+                                        <div class="col-sm-6">
                                             <label class="col-lg-4 control-label" for="id_act_tipo_documento">Tipo
                                                 Documento </label>
                                             <div class="input-group col-lg-8">
@@ -263,10 +274,9 @@
                                                         class="form-control">
                                                     <option value="">[Seleccione]</option>
                                                 </select>
-
                                             </div>
                                         </div>
-                                        <div class="col-lg-6">
+                                        <div class="col-sm-6">
                                             <label class="col-lg-4 control-label"
                                                    for="id_act_nro_doc_prod">Nro. Documento </label>
                                             <div class="input-group col-lg-8 ">
@@ -280,9 +290,9 @@
                                     </div>
 
                                     <div class="form-group ">
-                                        <label class="col-lg-3 control-label"
+                                        <label class="col-lg-2 control-label"
                                                for="id_act_des_prod">Descripcion Producto </label>
-                                        <div class="input-group col-lg-8 ">
+                                        <div class="input-group col-lg-9 ">
 													<span class="input-group-addon"><i
                                                             class="bi bi-boxes"></i></span><textarea
                                                 class="form-control input-sm" type="text"
@@ -291,27 +301,27 @@
                                         </div>
                                     </div>
 
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_act_catalogo">Tipo
-                                            Producto </label>
-                                        <div class="input-group col-lg-8">
-                                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_catalogo" name="catalogo" class="form-control">
-                                                <option value="">[Seleccione Tipo]</option>
-                                                <c:forEach items="${catalogos}" var="item">
-                                                    <option value="${item.idCatalogo}">${item.descripcion}</option>
-                                                </c:forEach>
-                                            </select>
+                                    <div class="row form-group">
+                                        <div class="col-sm-6">
+                                            <label class="col-lg-4 control-label" for="id_act_catalogo">Tipo
+                                            </label>
+                                            <div class="input-group col-lg-8">
+                                                <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                                                <select id="id_act_catalogo" name="catalogo" class="form-control">
+                                                    <option value="">[Seleccione Tipo]</option>
+                                                    <c:forEach items="${catalogos}" var="item">
+                                                        <option value="${item.idCatalogo}">${item.descripcion}</option>
+                                                    </c:forEach>
+                                                </select>
+                                            </div>
                                         </div>
-                                    </div>
-
-                                    <div class="form-group">
-                                        <label class="col-lg-3 control-label" for="id_act_data_catalogo">Sub Tipo
-                                            Producto </label>
-                                        <div class="input-group col-lg-8">
-                                            <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
-                                            <select id="id_act_data_catalogo" name="dataCatalogo" class="form-control">
-                                            </select>
+                                        <div class="col-sm-6">
+                                            <label class="col-lg-3 control-label" for="id_act_data_catalogo">Sub Tipo </label>
+                                            <div class="input-group col-lg-8">
+                                                <span class="input-group-addon"><i class="bi bi-box2-heart-fill"></i></span>
+                                                <select id="id_act_data_catalogo" name="dataCatalogo" class="form-control">
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -324,16 +334,12 @@
                                             </div>
                                         </div>
                                     </div>
-
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </form>
-
             </div>
         </div>
     </div>
-
 </div>

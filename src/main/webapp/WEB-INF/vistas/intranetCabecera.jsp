@@ -15,8 +15,11 @@
                     <li><a href="intranet.jsp">prestatario</a></li>
                 </ul>--%>
                 <ul class="nav navbar-nav navbar-left">
-                    <li><a href="productos.jsp">Productos</a></li>
+                    <li><a href="/">Productos</a></li>
                 </ul>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/proveedor">Proveedores</a></li>
+                    </ul>
 
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="logout">Salir</a></li>

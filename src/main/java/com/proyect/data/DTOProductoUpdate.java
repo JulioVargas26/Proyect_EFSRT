@@ -6,9 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record DTOProductoUpdate(@NotNull Long id_prod,
-                                int cod_prod,
-                                String nom_prod,
+                                String cod_prod,
+                                //String nom_prod,
                                 String des_prod,
+                                String tip_mone,
                                 double pre_prod,
                                 double sto_prod,
                                 String tip_docu,

@@ -13,7 +13,7 @@ public interface ProductoService {
     Optional<Producto> buscarPorId(Long id);
 
     List<Producto> listarRegistrosActivoTrue();
-    List<Producto> buscarPorNombre(String nombre_producto);
-    List<Producto> buscarPorFiltrosGestionProducto(Long cod_prod, String nom_prod, String des_prod);
+    //List<Producto> buscarPorNombre(String nombre_producto);
+    List<Producto> buscarPorFiltrosGestionProducto(String cod_prod, String des_prod);
 
 }

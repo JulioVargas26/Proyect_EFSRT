@@ -40,14 +40,14 @@ public class ProductoServiceImpl implements ProductoService {
 		return productoRepository.listarRegistrosActivoTrue();
 	}
 
-	@Override
+	/*@Override
 	public List<Producto> buscarPorNombre(String nombre_producto) {
 		return productoRepository.buscarPorNombre(nombre_producto);
-	}
+	}*/
 
 	@Override
-	public List<Producto> buscarPorFiltrosGestionProducto(Long cod_prod, String nom_prod, String des_prod) {
-		return productoRepository.buscarPorFiltrosGestionProducto(cod_prod, nom_prod, des_prod);
+	public List<Producto> buscarPorFiltrosGestionProducto(String cod_prod, String des_prod) {
+		return productoRepository.buscarPorFiltrosGestionProducto(cod_prod, des_prod);
 	}
 
 }

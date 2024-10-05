@@ -4,12 +4,14 @@ import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
-public record DTOProductoSave(@NotNull
-                              int cod_prod,
-                              @NotBlank
-                              String nom_prod,
+public record DTOProductoSave(@NotBlank
+                              String cod_prod,
+                              /*@NotBlank
+                              String nom_prod,*/
                               @NotBlank
                               String des_prod,
+                              @NotBlank
+                              String tip_mone,
                               @NotNull
                               double pre_prod,
                               @NotNull

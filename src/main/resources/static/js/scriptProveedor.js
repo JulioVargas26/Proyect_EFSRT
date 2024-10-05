@@ -27,10 +27,10 @@ $(document).ready(function () {
     buscarPorFiltrosGestionProductos();
 
     // Realiza la solicitud para obtener la lista de monedas
-    $.getJSON("listaTipoMoneda", {})
+    $.getJSON("listaTipoContacto", {})
         .done(function (data) {
             // Limpiar el select antes de agregar las nuevas opciones
-            $("#id_act_tipo_moneda").empty();
+            $("#id_act_tipo_contacto").empty();
 
             // Iterar sobre los datos obtenidos
             $.each(data, function (index, item) {
@@ -41,7 +41,7 @@ $(document).ready(function () {
                 });
 
                 // Agregar la opción al select
-                $("#id_act_tipo_moneda").append(option);
+                $("#id_act_tipo_contacto").append(option);
             });
         })
         .fail(function (jqxhr, textStatus, error) {
@@ -52,9 +52,9 @@ $(document).ready(function () {
         });
 
     //registrar lista tipo moneda
-    $.getJSON("listaTipoMoneda", {}, function (data) {
+    $.getJSON("listaTipoContacto", {}, function (data) {
         $.each(data, function (index, item) {
-            $("#id_reg_tipo_moneda").append(
+            $("#id_reg_tipo_contacto").append(
                 $('<option>', {
                     value: index,
                     text: item
@@ -62,98 +62,7 @@ $(document).ready(function () {
         });
     });
 
-    // Realiza la solicitud para obtener la lista de nacionalidades
-    $.getJSON("listaTipoDocumento", {})
-        .done(function (data) {
-            // Limpiar el select antes de agregar las nuevas opciones
-            $("#id_act_tipo_documento").empty();
-
-            // Iterar sobre los datos obtenidos
-            $.each(data, function (index, item) {
-                // Crear una nueva opción
-                var option = $('<option>', {
-                    value: index,
-                    text: item
-                });
-
-                // Agregar la opción al select
-                $("#id_act_tipo_documento").append(option);
-            });
-        })
-        .fail(function (jqxhr, textStatus, error) {
-            // Manejar errores de la solicitud
-            var err = textStatus + ", " + error;
-            console.log("Fallo en la solicitud: " + err);
-            // Puedes agregar aquí tu propia lógica para mostrar un mensaje de error al usuario
-        });
-
-    //registrar lista tipo documento
-    $.getJSON("listaTipoDocumento", {}, function (data) {
-        $.each(data, function (index, item) {
-            $("#id_reg_tipo_documento").append(
-                $('<option>', {
-                    value: index,
-                    text: item
-                }));
-        });
-    });
-
-    $.getJSON("listarPorCatalogo", {}, function (data) {
-        $.each(data, function (index, item) {
-            $("#id_reg_catalogo").append(
-                $('<option>', {
-                    value: item.idCatalogo,
-                    text: item.descripcion
-                }));
-            $("#id_act_catalogo").append(
-                $('<option>', {
-                    value: item.idCatalogo,
-                    text: item.descripcion
-                }));
-        });
-    });
-
-    $("#id_reg_catalogo").change(function () {
-        var catalogoId = $(this).val();
-        $("#id_reg_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
-        $.ajax({
-            url: "/listarPorDataCatalogo/" + catalogoId,
-            method: "GET",
-            success: function (data) {
-                $.each(data, function (index, item) {
-                    $("#id_reg_data_catalogo").append(
-                        $('<option>', {
-                            value: item.idDataCatalogo,
-                            text: item.descripcion
-                        }));
-                });
-            }
-        });
-
-    });
-    $("#id_act_catalogo").change(function () {
-        var catalogoId = $(this).val();
-        $("#id_act_data_catalogo").empty().append("<option>[Seleccione un Sub Tipo]</option>")
-        $.ajax({
-            url: "/listarPorDataCatalogo/" + catalogoId,
-            method: "GET",
-            success: function (data) {
-                $.each(data, function (index, item) {
-                    $("#id_act_data_catalogo").append(
-                        $('<option>', {
-                            value: item.idDataCatalogo,
-                            text: item.descripcion
-                        }));
-                });
-
-                $("#id_act_data_catalogo").val(idDataCatalogo);
-            }
-
-        });
-
-    });
-
-    $("#id_btn_filtrar").click(function () {
+    $("#id_btn_filtrar_prov").click(function () {
         buscarPorFiltrosGestionProductos();
     });
 
@@ -170,47 +79,66 @@ $(document).ready(function () {
 
 });
 
-/*
-//asignar evento change al select con ID "id_reg_catalogo"
-$(document).on("change","#id_reg_catalogo",function(){
-    //variable
-    let cod;
-    cod=$(this).val();
-    //limpiar combo de tipo
-    $("#id_reg_data_catalogo").empty().append("<option>[Seleccione Tipo de Producto]</option>")
-    $.get("/listarPorDataCatalogo/"+cod,function(response){
-        //bucle
-        $.each(response,function(index,item){
-            $("#id_reg_data_catalogo").append("<option value='"+item.idDataCatalogo+"'>"+item.descripcion+"</option>");
-        })
-        $("#id_reg_data_catalogo").val(idDataCatalogo);
+$("#btnConsultaSunat").click(function () {
+    $('#id_msg_error_api_dni').css('display', 'none');
+    $('#id_msg_success_api_dni').css('display', 'none');
+    var numeroDocumento = $("#id_buscar_api_numero_documento").val();
 
+    $.ajax({
+        type: "POST",
+        url: "/consultaSunat",
+        data: {
+            numero_documento: numeroDocumento,
+        },
+        success: function (response) {
+            console.log(response);
+            var jsonData = JSON.parse(response);
+            $("#id_buscar_api_numero_documento").val(jsonData.numeroDocumento).prop('readonly', true);
+            $('#id_reg_direccion_fiscal').val(jsonData.direccion).prop('readonly', true);
+            $("#id_reg_razon_social").val(jsonData.razonSocial).prop('readonly', true);
+            $("#id_reg_condicion_ruc").val(jsonData.condicion).prop('readonly', true);
+            $("#id_reg_estado_ruc").val(jsonData.estado).prop('readonly', true);
+
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "success",
+                title: "Se encontraron coincidencias"
+            });
+        },
+        error: function (xhr, status, error) {
+            console.error("Error al obtener datos de la api", error);
+            $('#id_msg_error_api_dni').css('display', 'block');
+            const Toast = Swal.mixin({
+                toast: true,
+                position: "top-end",
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+                didOpen: (toast) => {
+                    toast.onmouseenter = Swal.stopTimer;
+                    toast.onmouseleave = Swal.resumeTimer;
+                }
+            });
+            Toast.fire({
+                icon: "error",
+                title: "Verifica los datos del Documento"
+            });
+        }
     })
 })
-*/
-
-//asignar evento change al select con ID "id_act_catalogo"
-/*
-$(document).on("change","#id_act_catalogo",function(){
-    //variable
-    let cod;
-    cod=$(this).val();
-    //limpiar combo de tipo
-    $("#id_act_data_catalogo").empty().append("<option>[Seleccione Tipo de Producto]</option>")
-    $.get("/listarPorDataCatalogo/"+cod,function(response){
-        //bucle
-        $.each(response,function(index,item){
-            $("#id_act_data_catalogo").append("<option value='"+item.idDataCatalogo+"'>"+item.descripcion+"</option>");
-        })
-        $("#id_act_data_catalogo").val(idDataCatalogo);
-
-    })
-})
-*/
 
 function limpiarFormularioRegistro() {
     $("#id_reg_cod_prod").val("")
-    //$("#id_reg_nom_prod").val("")
     $("#id_reg_sto_prod").val("")
     $("#id_reg_pre_prod").val("")
     $("#id_reg_tipo_documento").val("")
@@ -219,16 +147,9 @@ function limpiarFormularioRegistro() {
     $("#id_reg_catalogo").val("")
     $("#id_reg_data_catalogo").val("")
 
- /*   //resetear formulario
-    $("#idRegistra").trigger("reset");
-    //asignar el valor de "0" a la caja con ID "idCodigo"
-    $("#idCodigo").val(0);
-    //resetear validación
-    $("#idRegistra").data("bootstrapValidator").resetForm(true);
-*/
 }
 
-$("#id_btn_registra").click(function () {
+$("#id_btn_reg_prov").click(function () {
 //
     //$('#id_form_registra').bootstrapValidator('validate');
     //var validator = $('#id_form_registra').data('bootstrapValidator');
@@ -236,8 +157,8 @@ $("#id_btn_registra").click(function () {
     //if (validator.isValid()) {
     $.ajax({
         type: "POST",
-        url: "insertProducto",
-        data: $('#id_form_registra').serialize(),
+        url: "insertProveedor",
+        data: $('#id_form_reg_prov').serialize(),
         success: function (data) {
             if (data.MSG_OK == null) {
                 const Toast = Swal.mixin({
@@ -271,7 +192,7 @@ $("#id_btn_registra").click(function () {
                     icon: "success",
                     title: data.MSG_OK
                 });
-                $('#id_div_modal_registra').modal("hide");
+                $('#id_div_modal_reg_prov').modal("hide");
                 limpiarFormularioRegistro();
                 agregarGrilla(data.LIST);
                 window.location.reload();
@@ -289,14 +210,14 @@ $("#id_btn_registra").click(function () {
     //}
 });
 
-$("#id_btn_actualiza").click(function () {
+$("#id_btn_act_prov").click(function () {
     //	var validator = $('#id_form_actualiza').data('bootstrapValidator');
     //	validator.validate();
     //	if (validator.isValid()) {
     $.ajax({
         type: "PUT",
-        url: "actualizarProducto",
-        data: $('#id_form_actualiza').serialize(),
+        url: "actualizarProveedor",
+        data: $('#id_form_act_prov').serialize(),
         success: function (data) {
             if (data.MSG_OK == null) {
                 const Toast = Swal.mixin({
@@ -330,7 +251,7 @@ $("#id_btn_actualiza").click(function () {
                     icon: "success",
                     title: data.MSG_OK
                 });
-                $('#id_div_modal_registra').modal("hide");
+                $('#id_div_modal_act_prov').modal("hide");
                 limpiarFormularioRegistro();
                 agregarGrilla(data.LIST);
                 window.location.reload();
@@ -349,7 +270,7 @@ $("#id_btn_actualiza").click(function () {
 });
 
 function listarProductos() {
-    $.getJSON("listarProductoActivoTrue", {
+    $.getJSON("listarProveedorActivoTrue", {
             "filtro": ''
         },
         function (data) {
@@ -392,13 +313,11 @@ function listarProductos() {
 }
 
 function buscarPorFiltrosGestionProductos() {
-    var cod_prod = $("#id_txt_codigo").val();
-    //var nom_prod = $("#id_txt_nombre").val();
-    var des_prod = $("#id_txt_descripcion").val();
-    $.getJSON("buscarPorGestionProducto", {
-        "cod_prod": cod_prod,
-        //"nom_prod": nom_prod,
-        "des_prod": des_prod
+    var ruc = $("#id_txt_ruc").val();
+    var razon_social = $("#id_txt_raz_soc").val();
+    $.getJSON("buscarPorGestionProveedor", {
+        "ruc": ruc,
+        "razon_social": razon_social
     }, function (data) {
         if (data.LIST == null) {
             const Toast = Swal.mixin({
@@ -452,108 +371,58 @@ function agregarGrilla(lista) {
                 lengthChange: false,
                 columns: [
                     {
-                        data: "id_prod"
+                        data: "id_prov"
                     },
                     {
-                        data: "cod_prod"
+                        data: "ruc"
                     },
                     {
-                        data: "des_prod"
+                        data: "razon_social"
                     },
                     {
-                        data: function (row) {
-                            /*if (row.pre_prod != '') {
-                                doc = row.tip_mone.toString().indexOf("PEN") !== -1 ? "S/. " + row.pre_prod :  "$ " + row.pre_prod ;
-                            }*/
-                            if (row.tip_mone.toString().indexOf("USD") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( $ )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("EUR") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( \u20AC )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("PEN") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( S/. )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("JPY") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( &yen )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("CNY") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( &yen )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("MXN") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( $ )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("VES") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( Bs )" ;
-                            }
-                            if (row.tip_mone.toString().indexOf("BRL") !== -1) {
-                                // Apply additional logic for PEN_SOL_PERUANO if necessary
-                                doc = row.tip_mone + " ( R$ )" ;
-                            }
-
-                            return doc;
-                        }
+                        data: "direccion_fiscal"
                     },
                     {
-                        data: function (row) {
-                            if (row.sto_prod != '' && row.pre_prod != '') {
-                                total = row.pre_prod * row.sto_prod;
-                                precio = total.toFixed(4);
-                            }
-                            return precio // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
-
-                        }
+                        data: "condicion_ruc"
                     },
                     {
-                        data: "sto_prod"
+                        data: "estado_ruc"
                     },
                     {
-                        data: function (row) {
-                            if (row.doc_prod != '') {
-                                doc = row.tip_docu.toString().substring(0, 3) + " - " + row.doc_prod;
-                            }
-                            return doc // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
-                        }
+                        data: "tipo_contacto"
                     },
                     {
-                        data: function (row) {
-                            if (row.dataCatalogo.descripcion != "") {
-                                sub = row.dataCatalogo.catalogo.descripcion.toString() + " " + row.dataCatalogo.descripcion;
-                            }
-                            return sub // Verificamos si hay un objeto "contacto" y accedemos al atributo  "Fijo"
-                        }
-                        //data: "dataCatalogo.descripcion"
+                        data: "nombre_contacto"
+                    },
+                    {
+                        data: "telefono_contacto"
+                    },
+                    {
+                        data: "email_contacto"
                     },
                     {
                         data: function (row, type, val,
                                         meta) {
                             var salida = '<button type="button" style="width: 90px" class="btn btn-info btn-sm" onclick="editar(\''
-                                + row.id_prod
+                                + row.id_prov
                                 + '\',\''
-                                + row.cod_prod
+                                + row.ruc
                                 + '\',\''
-                                + row.sto_prod
+                                + row.razon_social
                                 + '\',\''
-                                + row.tip_mone
+                                + row.direccion_fiscal
                                 + '\',\''
-                                + row.pre_prod
+                                + row.condicion_ruc
                                 + '\',\''
-                                + row.tip_docu
+                                + row.estado_ruc
                                 + '\',\''
-                                + row.doc_prod
+                                + row.tipo_contacto
                                 + '\',\''
-                                + row.des_prod
+                                + row.nombre_contacto
                                 + '\',\''
-                                + row.dataCatalogo.catalogo.idCatalogo
+                                + row.telefono_contacto
                                 + '\',\''
-                                + row.dataCatalogo.idDataCatalogo
+                                + row.email_contacto
                                 + '\')">Editar</button>';
                             return salida;
                         },
@@ -563,7 +432,7 @@ function agregarGrilla(lista) {
                         data: function (row, type, val,
                                         meta) {
                             var salida = '<button type="button" style="width: 90px" class="btn btn-warning btn-sm" onclick="accionEliminar(\''
-                                + row.id_prod
+                                + row.id_prov
                                 + '\')">'
                                 + (row.registros.activo == 1 ? 'Activo'
                                     : 'Inactivo')
@@ -576,39 +445,29 @@ function agregarGrilla(lista) {
 
 }
 
-function editar(id_prod, cod_prod, sto_prod, tipo_moneda, pre_prod,
-                tipo_documento, nro_doc_prod, des_prod, idCatalogo, dataCatalogo) {
-    $('#id_act_ID').val(id_prod);
-    $('#id_act_cod_prod').val(cod_prod);
-    $('#id_act_sto_prod').val(sto_prod);
-    $('#id_act_tipo_moneda').val(tipo_moneda);
-    $('#id_act_pre_prod').val(pre_prod);
-    $('#id_act_tipo_documento').val(tipo_documento);
-    $('#id_act_nro_doc_prod').val(nro_doc_prod);
-    $('#id_act_des_prod').val(des_prod);
+function editar(id_prov, ruc, razon_social, direccion_fiscal, condicion_ruc,
+                estado_ruc, tipo_contacto, nombre_contacto, telefono_contacto, email_contacto) {
+    $('#id_act_id_prov').val(id_prov).prop('readonly', true);
+    $('#id_act_ruc').val(ruc).prop('readonly', true);
+    $('#id_act_razon_social').val(razon_social).prop('readonly', true);
+    $('#id_act_direccion_fiscal').val(direccion_fiscal).prop('readonly', true);
+    $('#id_act_condicion_ruc').val(condicion_ruc).prop('readonly', true);
+    $('#id_act_estado_ruc').val(estado_ruc).prop('readonly', true);
+    $('#id_act_tipo_contacto').val(tipo_contacto);
+    $('#id_act_nombre_contacto').val(nombre_contacto);
+    $('#id_act_telefono_prov').val(telefono_contacto);
+    $('#id_act_email_prov').val(email_contacto);
 
-    $('#id_act_catalogo').val(idCatalogo);
-
-    idDataCatalogo = dataCatalogo;
-    $('#id_act_catalogo').trigger("change");
-
-    $('#id_div_modal_actualiza').modal("show");
-
-/*
-    //$("#idTipo").val(response.tipo.codigo);
-    $("#idLaboratorio").val(response.tipo.laboratorio.codigo);
-
-    codTipo=response.tipo.codigo;
-    $("#idLaboratorio").trigger("change");*/
+    $('#id_div_modal_act_prov').modal("show");
 
 }
 
-function accionEliminar(id_producto) {
+function accionEliminar(id_prov) {
     $.ajax({
         type: "POST",
-        url: "cambiarEstadoProductoCrud",
+        url: "cambiarEstadoProveedorCrud",
         data: {
-            "id_producto": id_producto
+            "id_prov": id_prov
         },
         success: function (data) {
             agregarGrilla(data.lista);
