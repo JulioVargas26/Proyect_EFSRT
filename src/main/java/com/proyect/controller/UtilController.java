@@ -2,10 +2,14 @@ package com.proyect.controller;
 
 import com.proyect.entity.DataCatalogo;
 import com.proyect.entity.Producto;
+import com.proyect.entity.Proveedor;
 import com.proyect.service.CatalogoService;
 import com.proyect.service.DataCatalogoService;
 import com.proyect.service.ProductoService;
+import com.proyect.service.ProveedorService;
+import com.proyect.util.TipoContacto;
 import com.proyect.util.TipoDocumento;
+import com.proyect.util.TipoMoneda;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,60 +27,74 @@ public class UtilController {
 	@Autowired
 	private ProductoService productoService;
 	@Autowired
-	private CatalogoService catalogoService;
+	private ProveedorService proveedorService;
 
+	@Autowired
+	private CatalogoService catalogoService;
 
 	@GetMapping("/")
 	public String verProducto(Model model) {
 		//crear atributos
 		model.addAttribute("catalogos", catalogoService.findAll());
-
 		return "productos";
 	}
 
-	@GetMapping("/listarRegistrosActivoTrue")
+	@GetMapping("/listarProductoActivoTrue")
 	@ResponseBody
 	public List<Producto> listarProducto() {
 		return productoService.listarRegistrosActivoTrue();
 	}
 
-	@GetMapping("/listaTipoDocumento")
+	@GetMapping("/listarProveedorActivoTrue")
 	@ResponseBody
-	public HashMap<String, String> listaTipoDocumento() {
-		TipoDocumento[] nacion = TipoDocumento.values();
+	public List<Proveedor> listarProveedor() {
+		return proveedorService.listarRegistrosActivoTrue();
+	}
+
+
+
+	@GetMapping("/listaTipoContacto")
+	@ResponseBody
+	public HashMap<String, String> listaTipoContacto() {
+		TipoContacto[] tipoContactos = TipoContacto.values();
 		HashMap<String, String> map = new HashMap<String, String>();
-		for (TipoDocumento item : nacion) {
-			map.put(item.toString().substring(0, 3), item.toString());
+		for (TipoContacto item : tipoContactos) {
+			map.put(item.toString().substring(0, item.toString().length()), item.toString());
 		}
-		System.out.println("listar tipo documento "+map);
+		System.out.println("listar tipo documento " + map);
 		return map;
 	}
 
-	/*@GetMapping("/listarPorCatalogo")
+	@GetMapping("/listaTipoDocumento")
 	@ResponseBody
-	public List<Catalogo> catalogoList() {
-		return catalogoService.findAll();
+	public HashMap<String, String> listaTipoDocumento() {
+		TipoDocumento[] tipoDocumentos = TipoDocumento.values();
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (TipoDocumento item : tipoDocumentos) {
+			map.put(item.toString().substring(0, item.toString().length()), item.toString());
+		}
+		System.out.println("listar tipo documento " + map);
+		return map;
 	}
-*/
+
+	@GetMapping("/listaTipoMoneda")
+	@ResponseBody
+	public HashMap<String, String> listaTipoMoneda() {
+		TipoMoneda[] monedas = TipoMoneda.values();
+		HashMap<String, String> map = new HashMap<String, String>();
+		for (TipoMoneda item : monedas) {
+			map.put(item.toString().substring(0, 3), item.toString().substring(4, item.toString().length()));
+		}
+		System.out.println("listar tipo moneda " + map);
+		return map;
+	}
+
 	@GetMapping("/listarPorDataCatalogo/{catalogoId}")
 	@ResponseBody
 	public List<DataCatalogo> dataCatalogoList(@PathVariable Long catalogoId) {
 		return dataCatalogoService.listarPorCatalogo(catalogoId);
 	}
 
-	/*@GetMapping("/listarPorCatalogo")
-	@ResponseBody
-	public HashMap<?, ?> listarPorCatalogo() {
-		System.out.println("listar Catalogo ");
 
-		return catalogoService.findAll().stream().collect(HashMap::new, (m, v) -> m.put(v.getIdCatalogo().toString(), v.getDescripcion()), HashMap::putAll);
-	}*/
-
-	/*@GetMapping("/listarPorDataCatalogo/{catalogoId}")
-	@ResponseBody
-	public HashMap<?, ?> listarPorDataCatalogo(@PathVariable Long catalogoId) {
-		System.out.println("listar Data Catalogo "+catalogoId);
-		return dataCatalogoService.listarPorCatalogo(catalogoId).stream().collect(HashMap::new, (m, v) -> m.put(v.getIdDataCatalogo().toString(), v.getDescripcion()), HashMap::putAll);
-	}*/
 
 }

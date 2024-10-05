@@ -1,8 +1,7 @@
 	package com.proyect.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.proyect.data.DTOProductoSave;
-import com.proyect.data.DTOProductoUpdate;
+import com.proyect.data.*;
 import com.proyect.util.Registros;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,8 +18,9 @@ public class Producto {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_prod;
-	private int cod_prod;
-	private String nom_prod;
+	private String cod_prod;
+	//private String nom_prod;
+	private String tip_mone;
 	private double pre_prod;
 	private double sto_prod;
 	private String des_prod;
@@ -37,8 +37,9 @@ public class Producto {
 
 	public Producto(DTOProductoSave dtoProductoSave , DataCatalogo dataCatalogo) {
 		this.cod_prod = dtoProductoSave.cod_prod();
-		this.nom_prod = dtoProductoSave.nom_prod();
+		//this.nom_prod = dtoProductoSave.nom_prod();
 		this.des_prod = dtoProductoSave.des_prod();
+		this.tip_mone = dtoProductoSave.tip_mone();
 		this.pre_prod = dtoProductoSave.pre_prod();
 		this.sto_prod = dtoProductoSave.sto_prod();
 		this.tip_docu = dtoProductoSave.tip_docu();
@@ -47,14 +48,17 @@ public class Producto {
 	}
 
 	public Producto updateData(DTOProductoUpdate dtoProductoUpdate) {
-		if (dtoProductoUpdate.cod_prod() != 0) {
+		if (dtoProductoUpdate.cod_prod() != null) {
 			this.cod_prod = dtoProductoUpdate.cod_prod();
 		}
-		if (dtoProductoUpdate.nom_prod() != null) {
+		/*if (dtoProductoUpdate.nom_prod() != null) {
 			this.nom_prod = dtoProductoUpdate.nom_prod();
-		}
+		}*/
 		if (dtoProductoUpdate.des_prod() != null) {
 			this.des_prod = dtoProductoUpdate.des_prod();
+		}
+		if (dtoProductoUpdate.tip_mone() != null) {
+			this.tip_mone = dtoProductoUpdate.tip_mone();
 		}
 		if (dtoProductoUpdate.pre_prod() != 0.0) {
 			this.pre_prod = dtoProductoUpdate.pre_prod();

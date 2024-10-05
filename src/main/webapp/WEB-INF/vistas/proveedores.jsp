@@ -22,7 +22,7 @@
     <link rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
 
-    <title> Productos  </title>
+    <title> Proveedores </title>
     <style>
 
         .close {
@@ -52,7 +52,7 @@
 
 <div class="container" style="margin: auto; margin-top: 4%; margin-left: 3%">
     <!-- Agregar aqu -->
-    <h3>Gesti&oacute;n Productos</h3>
+    <h3>Gesti&oacute;n Proveedores</h3>
 
     <div >
 
@@ -64,8 +64,8 @@
                                                                 class="bi bi-boxes"></i></span>
                         <input
                                 class="form-control input-sm" type="text"
-                                id="id_txt_codigo" name="filtro" maxlength="10"
-                                autocomplete="off" placeholder="Ingrese el codigo">
+                                id="id_txt_ruc" name="filtro" maxlength="10"
+                                autocomplete="off" placeholder="Ingrese el RUC">
                     </div>
                 </div>
                 <div class=" col-lg-6">
@@ -73,8 +73,8 @@
 														<span class="input-group-addon"><i
                                                                 class="bi bi-boxes"></i></span><input
                             class="form-control input-sm" type="text" maxlength="30"
-                            id="id_txt_descripcion" name="filtro" autocomplete="off"
-                            placeholder="Ingrese la descripcion">
+                            id="id_txt_raz_soc" name="filtro" autocomplete="off"
+                            placeholder="Ingrese la razon social">
                     </div>
                     <%--<div class="input-group col-lg-12 ">
 														<span class="input-group-addon"><i
@@ -108,13 +108,13 @@
             <div class="form-group">
                 <div class="col-md-3 col-sm-6 col-mb-3">
                     <button type="button" class="btn btn-primary btn-block "
-                            id="id_btn_filtrar"><i class="bi bi-search"></i> Buscar
+                            id="id_btn_filtrar_prov"><i class="bi bi-search"></i> Buscar
                     </button>
                 </div>
 
                 <div class="col-md-3 col-sm-6 col-mb-3">
                     <button type="button" data-toggle='modal'
-                            data-target="#id_div_modal_registra"
+                            data-target="#id_div_modal_reg_prov"
                             class='btn btn-success btn-block '><i class="bi bi-plus-square"></i> Nuevo
                     </button>
                 </div>
@@ -123,19 +123,20 @@
 
         <div class="row" style="padding-top: 3rem;">
             <div class="col-md-12">
-                <%--<div class="content ">--%>
-                    <table id="id_table" class="table  table-hover  table-dark " style="width:100%">
+                <div class="content table">
+                    <table id="id_table" class="table  table-hover table-dark" style="width:100%">
                         <thead>
                         <tr>
                             <th style="width: 5%">ID</th>
-                            <th style="width: 25%">Codigo</th>
-                            <%--<th style="width: 3%">Nombre</th>--%>
-                            <th style="width: 5%">Descripcion</th>
-                            <th style="width: 3%">Moneda</th>
-                            <th style="width: 10%">Precio Total</th>
-                            <th style="width: 22%">Stock</th>
-                            <th style="width: 10%">Nro Documento</th>
-                            <th style="width: 10%">Tipo</th>
+                            <th style="width: 3%">numeroDocumento</th>
+                            <th style="width: 25%">razonSocial</th>
+                            <th style="width: 3%">direccion</th>
+                            <th style="width: 10%">condicion</th>
+                            <th style="width: 22%">estado</th>
+                            <th style="width: 22%">tipo_contacto</th>
+                            <th style="width: 10%">nombre</th>
+                            <th style="width: 10%">email</th>
+                            <th style="width: 10%">telefono</th>
                             <th style="width: 10%"></th>
                             <th style="width: 10%"></th>
                         </tr>
@@ -143,13 +144,13 @@
                         <tbody>
                         </tbody>
                     </table>
-                <%--</div>--%>
+                </div>
             </div>
         </div>
 
     </div>
 
-    <jsp:include page="models/modelProducto.jsp"/>
+    <jsp:include page="models/modelProveedor.jsp"/>
 
 </div>
 
@@ -161,6 +162,6 @@
 <script type="text/javascript" src="js/global.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
-<script src="../js/scriptProducto.js"></script>
+<script src="../js/scriptProveedor.js"></script>
 </body>
 </html>

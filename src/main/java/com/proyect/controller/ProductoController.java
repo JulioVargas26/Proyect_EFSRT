@@ -71,14 +71,11 @@ public class ProductoController {
 	@GetMapping("/buscarPorGestionProducto")
 	@ResponseBody
 	public Map<String, Object> listaComplejo(
-			@RequestParam(name = "cod_prod" , required = false, defaultValue = "0") Long cod_prod,
-			@RequestParam(name = "nom_prod" , required = false, defaultValue = "") String nom_prod,
+			@RequestParam(name = "cod_prod" , required = false, defaultValue = "") String cod_prod,
 			@RequestParam(name = "des_prod" , required = false, defaultValue = "") String des_prod) {
 		try {
-			List<Producto> productos = productoService.buscarPorFiltrosGestionProducto(
-					cod_prod,
-					"%" + nom_prod + "%",
-					"%" + des_prod + "%");
+			List<Producto> productos = productoService.buscarPorFiltrosGestionProducto("%" +
+					cod_prod + "%", "%" + des_prod + "%");
 
 			return productos.isEmpty()
 					? Collections.singletonMap(DEFAULT_MESSAGE_EMPTY_KEY, MESSAGE_LIST_EMPTY)
@@ -96,8 +93,8 @@ public class ProductoController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 
 		System.out.println("CODIGO PRODUCTO : " + obj.getCod_prod());
-		System.out.println("NOMBRE PRODUCTO : " + obj.getNom_prod());
 		System.out.println("DESCRIPCION PRODUCTO : " + obj.getDes_prod());
+		System.out.println("TIPO MONEDA : " + obj.getTip_mone());
 		System.out.println("PRECIO PRODUCTO : " + obj.getPre_prod());
 		System.out.println("STOCK PRODUCTO : " + obj.getSto_prod());
 		System.out.println("TIPO DOCUMENTO : " + obj.getTip_docu());
